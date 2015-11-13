@@ -25,9 +25,9 @@ finApp.factory('userService', ['$timeout', '$filter', '$q',
       return deferred.promise;
     }
 
-    function GetByUsername(username) {
+    function GetByUsername(email) {
       var deferred = $q.defer();
-      var filtered = $filter('filter')(getUsers(), { username: username });
+      var filtered = $filter('filter')(getUsers(), { email: email });
       var user = filtered.length ? filtered[0] : null;
       deferred.resolve(user);
       return deferred.promise;
@@ -38,10 +38,10 @@ finApp.factory('userService', ['$timeout', '$filter', '$q',
 
       // simulate api call with $timeout
       $timeout(function () {
-        GetByUsername(user.username)
+        GetByUsername(user.email)
             .then(function (duplicateUser) {
               if (duplicateUser !== null) {
-                deferred.resolve({ success: false, message: 'Username "' + user.username + '" is already taken' });
+                deferred.resolve({ success: false, message: 'This "' + user.email + '" is already in use' });
               } else {
                 var users = getUsers();
 

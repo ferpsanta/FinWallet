@@ -7,6 +7,10 @@ finApp.controller ('RegisterController', [ '$location', 'userService', '$uibModa
 
     function register() {
       console.log('Trying to register...');
+
+      console.log(vm.user.name);//TODO:Remove
+      console.log(vm.user.email);//TODO:Remove
+
       vm.dataLoading = true;
       userService.Create(vm.user)
           .then(function (response) {

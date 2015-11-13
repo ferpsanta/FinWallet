@@ -1,65 +1,65 @@
 <div class="modal-content">
 
+  <!-- Modal Header -->
+  <div class="modal-header">
+    <button type="button" class="close"  aria-label="Close" ng-click="vm.cancel()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title">
+      <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Sign up...
+    </h4>
+  </div>
 
-    <div class="modal-header">
-      <button type="button" class="close"  aria-label="Close" ng-click="vm.cancel()">
-        <span aria-hidden="true">&times;</span>
+  <!-- Modal Body -->
+  <div class="modal-body">
+    <form class="form-horizontal" name="form" ng-submit="vm.register()" role="form">
+    <!-- Name Address Input -->
+      <div class="form-group"
+           ng-class="{ 'has-error': (form.name.$dirty && (form.name.$error.required || form.name.$error.email)),
+                         'has-success': (form.name.$dirty && form.name.$valid)}">
+        <div name="firstNameGroup" class="input-group col-xs-10 col-xs-offset-1">
+          <span class="input-group-addon">
+            <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+          </span>
+          <input type="text" class="form-control" name="name" id="name" placeholder="Full name"
+                 ng-model="vm.user.name"
+                 ng-model-options="{ updateOn: 'blur' }"  required/>
+          <span class=" form-control-feedback glyphicon"
+                ng-show="form.name.$dirty"
+                ng-class="{ 'glyphicon-ok' : form.name.$valid }">
+          </span>
+        </div>
+        <span class="help-block" for="firstNamelGroup" ng-show="( form.name.$dirty && form.name.$error.required )">This field can't be empty</span>
+      </div>
+    <!-- Email Address Input -->
+      <div class="form-group"
+           ng-class="{ 'has-error': (form.email.$dirty && (form.email.$error.required || form.email.$error.email)),
+                       'has-success': (form.email.$dirty && form.email.$valid)}">
+        <div name="emailGroup" class="input-group col-xs-10 col-xs-offset-1">
+          <span class="input-group-addon">
+            <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
+          </span>
+          <input type="email" class="form-control" name="email" id="email" placeholder="Email Address"
+                 ng-model="vm.user.email"
+                 ng-model-options="{ updateOn: 'blur' }"  required/>
+          <span class=" form-control-feedback glyphicon"
+                ng-show="form.email.$dirty"
+                ng-class="{ 'glyphicon-remove' : (form.email.$error.required || form.email.$error.email),
+                            'glyphicon-ok' : form.email.$valid }">
+          </span>
+        </div>
+        <span class="help-block has-error" for="emailGroup" ng-show="( form.email.$dirty && form.email.$error.email )">Please, enter a valid email address</span>
+      </div>
+      <button type="submit" class="login-button" ng-disabled="form.$invalid">
+        <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
       </button>
-      <h4 class="modal-title">
-        <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Register...
-      </h4>
-    </div>
-    <div class="modal-body">
-      <form class="form-horizontal" name="form" ng-submit="vm.register()" role="form">
-      <!-- First Name Address Input -->
-        <div class="form-group col-xs-11"
-             ng-class="{ 'has-error': (form.name.$dirty && (form.name.$error.required || form.name.$error.email)),
-                           'has-success': (form.name.$dirty && form.name.$valid)}">
-          <div name="firstNameGroup" class="input-group">
-            <span class="input-group-addon">
-              <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-            </span>
-            <input type="text" class="form-control" name="name" id="name" placeholder="first name"
-                   ng-model="vm.user.name"
-                   ng-model-options="{ updateOn: 'blur' }"  required/>
-            <span class=" form-control-feedback glyphicon"
-                  ng-show="form.name.$dirty"
-                  ng-class="{ 'glyphicon-remove' : (form.name.$error.required || form.name.$error.email),
-                              'glyphicon-ok' : form.name.$valid }">
-            </span>
-          </div>
-          <span class="help-block" for="firstNamelGroup" ng-show="( form.name.$dirty && form.name.$error.required )">This field can't be empty</span>
-        </div>
-      <!-- Shurname Name Address Input -->
+    </form>
+  </div>
 
-      <!-- Email Address Input -->
-        <div class="form-group col-xs-11"
-             ng-class="{ 'has-error': (form.username.$dirty && (form.username.$error.required || form.username.$error.email)),
-                           'has-success': (form.username.$dirty && form.username.$valid)}">
-          <div name="emailGroup" class="input-group">
-            <span class="input-group-addon">
-              <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
-            </span>
-            <input type="email" class="form-control" name="username" id="username" placeholder="email"
-                   ng-model="vm.user.username"
-                   ng-model-options="{ updateOn: 'blur' }"  required/>
-            <span class=" form-control-feedback glyphicon"
-                  ng-show="form.username.$dirty"
-                  ng-class="{ 'glyphicon-remove' : (form.username.$error.required || form.username.$error.email),
-                              'glyphicon-ok' : form.username.$valid }">
-            </span>
-          </div>
-          <span class="help-block has-error" for="emailGroup" ng-show="( form.username.$dirty && form.username.$error.email )">Please, enter a valid email address</span>
-        </div>
-
-        <button type="submit" class="login-button" ng-disabled="form.$invalid">
-          <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
-        </button>
-
-      </form>
-    </div>
-    <div class="modal-footer">
-
-    </div>
-
+  <!-- Modal Footer -->
+  <div class="modal-footer">
+    <p>
+      By Signing up, you agree to the <a href="#" class="legal-link" target="_blank">Terms of Service</a> and <a href="#" class="legal-link" target="_blank">Privacy Policy</a>, including <a href="#" class="legal-link" target="_blank">Cookie Use</a>. Others will be able to find you by email or phone number when provided.
+    </p>
+  </div>
 </div>
