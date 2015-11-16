@@ -17,7 +17,7 @@
       <div class="form-group"
            ng-class="{ 'has-error': (form.name.$dirty && (form.name.$error.required || form.name.$error.email)),
                          'has-success': (form.name.$dirty && form.name.$valid)}">
-        <div name="firstNameGroup" class="input-group col-xs-10 col-xs-offset-1">
+        <div name="nameGroup" class="input-group col-xs-10 col-xs-offset-1">
           <span class="input-group-addon">
             <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
           </span>
@@ -29,7 +29,7 @@
                 ng-class="{ 'glyphicon-ok' : form.name.$valid }">
           </span>
         </div>
-        <span class="help-block" for="firstNamelGroup" ng-show="( form.name.$dirty && form.name.$error.required )">This field can't be empty</span>
+        <span class="help-block" for="nameGroup" ng-show="( form.name.$dirty && form.name.$error.required )">This field can't be empty</span>
       </div>
     <!-- Email Address Input -->
       <div class="form-group"
@@ -50,6 +50,31 @@
         </div>
         <span class="help-block has-error" for="emailGroup" ng-show="( form.email.$dirty && form.email.$error.email )">Please, enter a valid email address</span>
       </div>
+
+      <!-- Password Input -->
+      <div class="form-group"
+           ng-class="{ 'has-error': (form.password.$dirty && (form.password.$error.required || form.password.$error.password)),
+                       'has-success': (form.password.$dirty && form.password.$valid)}">
+        <div name="passwordGroup" class="input-group col-xs-10 col-xs-offset-1">
+          <span class="input-group-addon">
+            <span class="glyphicon glyphicon-lock" aria-hidden="true"></span>
+          </span>
+          <input type="password" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}" class="form-control" name="password" id="password" placeholder="Password"
+                 ng-model="vm.user.password"
+                 ng-model-options="{ updateOn: 'blur' }"
+                 uib-popover-template="passHelpPopover.html" required/>
+          <span class=" form-control-feedback glyphicon"
+                ng-show="form.password.$dirty"
+                ng-class="{ 'glyphicon-remove' : (form.password.$error.required),
+                            'glyphicon-ok' : form.password.$valid }">
+          </span>
+        </div>
+        <span class="help-block has-error" for="passwordGroup" ng-show="( form.password.$dirty && form.password.$error.required )">This field can't be empty</span>
+      </div>
+      <!-- Confirm Password Input -->
+
+
+      <!-- Form Summit Button -->
       <button type="submit" class="login-button" ng-disabled="form.$invalid">
         <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
       </button>
@@ -63,3 +88,10 @@
     </p>
   </div>
 </div>
+
+<!-- Password help popover template -->
+<script type="text/ng-template" id="passHelpPopover.html">
+  <div>
+    <label>PERRO</label>
+  </div>
+</script>

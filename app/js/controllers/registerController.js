@@ -10,6 +10,7 @@ finApp.controller ('RegisterController', [ '$location', 'userService', '$uibModa
 
       console.log(vm.user.name);//TODO:Remove
       console.log(vm.user.email);//TODO:Remove
+      console.log(vm.user.password);//TODO:Remove
 
       vm.dataLoading = true;
       userService.Create(vm.user)
