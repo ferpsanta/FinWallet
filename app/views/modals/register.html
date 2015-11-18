@@ -13,7 +13,8 @@
   <!-- Modal Body -->
   <div class="modal-body">
     <form class="form-horizontal" name="form" ng-submit="vm.register()" role="form">
-    <!-- Name Address Input -->
+
+      <!-- Name Address Input -->
       <div class="form-group"
            ng-class="{ 'has-error': (form.name.$dirty && (form.name.$error.required || form.name.$error.email)),
                          'has-success': (form.name.$dirty && form.name.$valid)}">
@@ -31,7 +32,8 @@
         </div>
         <span class="help-block" for="nameGroup" ng-show="( form.name.$dirty && form.name.$error.required )">This field can't be empty</span>
       </div>
-    <!-- Email Address Input -->
+
+      <!-- Email Address Input -->
       <div class="form-group"
            ng-class="{ 'has-error': (form.email.$dirty && (form.email.$error.required || form.email.$error.email)),
                        'has-success': (form.email.$dirty && form.email.$valid)}">
@@ -48,19 +50,26 @@
                             'glyphicon-ok' : form.email.$valid }">
           </span>
         </div>
-        <span class="help-block has-error" for="emailGroup" ng-show="( form.email.$dirty && form.email.$error.email )">Please, enter a valid email address</span>
+        <div ng-if="form.email.$dirty">
+          <span class="help-block has-error" for="emailGroup" role="alert">
+            <div ng-show="form.email.$error.required">This field is required</div>
+            <div ng-show="form.email.$error.email">Your email address is invalid</div>
+          </span>
+        </div>
       </div>
 
       <!-- Password Input -->
       <div class="form-group"
-           ng-class="{ 'has-error': (form.password.$dirty && (form.password.$error.required || form.password.$error.password)),
+           ng-class="{ 'has-error': (form.password.$dirty && (form.password.$error.required || form.password.$error.pattern || form.$error.minlength)),
                        'has-success': (form.password.$dirty && form.password.$valid)}">
         <div name="passwordGroup" class="input-group col-xs-10 col-xs-offset-1">
           <span class="input-group-addon">
             <span class="glyphicon glyphicon-lock" aria-hidden="true"></span>
           </span>
-          <input type="password" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}" class="form-control" name="password" id="password" placeholder="Password"
+          <input type="password" class="form-control" name="password" id="password" placeholder="Password"
                  ng-model="vm.user.password"
+                 ng-minlength="6"
+                 ng-pattern="/(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z])/"
                  ng-model-options="{ updateOn: 'blur' }"
                  popover-title="Remember..."
                  uib-popover-html=vm.passwordPopoverContent
@@ -68,17 +77,23 @@
                  popover-trigger="focus" required/>
           <span class=" form-control-feedback glyphicon"
                 ng-show="form.password.$dirty"
-                ng-class="{ 'glyphicon-remove' : (form.password.$error.required),
+                ng-class="{ 'glyphicon-remove' : (form.password.$error.required || form.password.$error.pattern || form.$error.minlength),
                             'glyphicon-ok' : form.password.$valid }">
           </span>
         </div>
-        <span class="help-block has-error" for="passwordGroup" ng-show="( form.password.$dirty && form.password.$error.required )">This field can't be empty</span>
+        <div ng-if="form.password.$dirty">
+          <span class="help-block has-error" for="passwordGroup" role="alert">
+            <div ng-show="form.password.$error.required">This field is required</div>
+            <div ng-show="form.password.$error.pattern">Password doesn't meet the requirements</div>
+            <div ng-show="form.password.$error.minlength">Password is too short (min. 6 characters)</div>
+          </span>
+        </div>
       </div>
 
       <!-- Confirm Password Input -->
       <div class="form-group"
            ng-show="form.password.$valid"
-           ng-class="{ 'has-error': (form.confirmPassword.$dirty && (form.confirmPassword.$error.required || form.confirmPassword.$error.confirmPassword)),
+           ng-class="{ 'has-error': (form.confirmPassword.$dirty && (form.confirmPassword.$error.required || !form.confirmPassword.$valid)),
                        'has-success': (form.confirmPassword.$dirty && form.confirmPassword.$valid)}">
         <div name="passwordGroup" class="input-group col-xs-10 col-xs-offset-1">
           <span class="input-group-addon">
@@ -86,14 +101,21 @@
           </span>
           <input type="password" class="form-control" name="confirmPassword" id="confirmPassword" placeholder="Confirm Password"
                  ng-model="vm.user.confirmPassword"
-                 ng-model-options="{ updateOn: 'blur' }" required>
+                 ng-model-options="{ updateOn: 'blur' }"
+                 confirm-password="vm.user.password" required>
           <span class=" form-control-feedback glyphicon"
                 ng-show="form.confirmPassword.$dirty"
-                ng-class="{ 'glyphicon-remove' : (form.confirmPassword.$error.required),
-                            'glyphicon-ok' : vm.confirmPassword }">
+                ng-class="{ 'glyphicon-remove' : (form.confirmPassword.$dirty && (form.confirmPassword.$error.required || !form.confirmPassword.$valid)),
+                            'glyphicon-ok' : (form.confirmPassword.$dirty && form.confirmPassword.$valid)}">
           </span>
         </div>
-        <span class="help-block has-error" for="passwordGroup" ng-show="( form.confirmPassword.$dirty && form.confirmPassword.$error.required )">This field can't be empty</span>
+        <pre>confirmPassword = {{form.confirmPassword.$valid | json}}</pre>
+        <div ng-if="form.confirmPassword.$dirty">
+          <span class="help-block has-error" for="passwordGroup" role="alert">
+            <div ng-show="form.confirmPassword.$error.required">This field is required</div>
+            <div ng-show="!form.confirmPassword.$valid">Passwords must match</div>
+          </span>
+        </div>
       </div>
 
       <!-- Form Summit Button -->
