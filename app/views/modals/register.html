@@ -14,7 +14,7 @@
   <div class="modal-body">
     <form class="form-horizontal" name="form" ng-submit="vm.register()" role="form">
 
-      <!-- Name Address Input -->
+      <!-- Name Input -->
       <div class="form-group"
            ng-class="{ 'has-error': (form.name.$dirty && (form.name.$error.required || form.name.$error.email)),
                          'has-success': (form.name.$dirty && form.name.$valid)}">
@@ -30,7 +30,11 @@
                 ng-class="{ 'glyphicon-ok' : form.name.$valid }">
           </span>
         </div>
-        <span class="help-block" for="nameGroup" ng-show="( form.name.$dirty && form.name.$error.required )">This field can't be empty</span>
+        <div ng-if="form.name.$dirty && form.name.$invalid">
+          <span class="help-block has-error" for="nameGroup" role="alert">
+            <div ng-show="form.name.$error.required">This field is required</div>
+          </span>
+        </div>
       </div>
 
       <!-- Email Address Input -->
@@ -50,7 +54,7 @@
                             'glyphicon-ok' : form.email.$valid }">
           </span>
         </div>
-        <div ng-if="form.email.$dirty">
+        <div ng-if="form.email.$dirty && form.email.$invalid">
           <span class="help-block has-error" for="emailGroup" role="alert">
             <div ng-show="form.email.$error.required">This field is required</div>
             <div ng-show="form.email.$error.email">Your email address is invalid</div>
@@ -70,7 +74,6 @@
                  ng-model="vm.user.password"
                  ng-minlength="6"
                  ng-pattern="/(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z])/"
-                 ng-model-options="{ updateOn: 'blur' }"
                  popover-title="Remember..."
                  uib-popover-html=vm.passwordPopoverContent
                  popover-placement="top"
@@ -81,7 +84,7 @@
                             'glyphicon-ok' : form.password.$valid }">
           </span>
         </div>
-        <div ng-if="form.password.$dirty">
+        <div ng-if="form.password.$dirty && form.password.$invalid">
           <span class="help-block has-error" for="passwordGroup" role="alert">
             <div ng-show="form.password.$error.required">This field is required</div>
             <div ng-show="form.password.$error.pattern">Password doesn't meet the requirements</div>
@@ -101,7 +104,6 @@
           </span>
           <input type="password" class="form-control" name="confirmPassword" id="confirmPassword" placeholder="Confirm Password"
                  ng-model="vm.user.confirmPassword"
-                 ng-model-options="{ updateOn: 'blur' }"
                  confirm-password="vm.user.password" required>
           <span class=" form-control-feedback glyphicon"
                 ng-show="form.confirmPassword.$dirty"
@@ -109,8 +111,7 @@
                             'glyphicon-ok' : (form.confirmPassword.$dirty && form.confirmPassword.$valid)}">
           </span>
         </div>
-        <pre>confirmPassword = {{form.confirmPassword.$valid | json}}</pre>
-        <div ng-if="form.confirmPassword.$dirty">
+        <div ng-if="form.confirmPassword.$dirty && form.confirmPassword.$invalid">
           <span class="help-block has-error" for="passwordGroup" role="alert">
             <div ng-show="form.confirmPassword.$error.required">This field is required</div>
             <div ng-show="!form.confirmPassword.$valid">Passwords must match</div>
@@ -128,7 +129,7 @@
   <!-- Modal Footer -->
   <div class="modal-footer">
     <p>
-      By Signing up, you agree to the <a href="#" class="legal-link" target="_blank">Terms of Service</a> and <a href="#" class="legal-link" target="_blank">Privacy Policy</a>, including <a href="#" class="legal-link" target="_blank">Cookie Use</a>. Others will be able to find you by email or phone number when provided.
+      By Signing up, you agree to the <a href="#" class="legal-link" target="_blank">Terms of Service</a> and <a href="#" class="legal-link" target="_blank">Privacy Policy</a>, including <a href="#" class="legal-link" target="_blank">Cookie Use</a>.
     </p>
   </div>
 </div>

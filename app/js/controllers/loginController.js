@@ -8,7 +8,7 @@ finApp.config(['$routeProvider', function($routeProvider) {
 
 finApp.controller('LoginController', [ '$location', 'authService', '$uibModal',
   function( $location, authService, $uibModal) {
-    console.log('Using LoginController');
+
     var vm = this;
 
     vm.login = login;
@@ -20,20 +20,18 @@ finApp.controller('LoginController', [ '$location', 'authService', '$uibModal',
     })();
 
     function login() {
-      vm.loading = true;
-      console.log('Trying to login...');
-      authService.Login(vm.username, vm.password, function (response) {
+      authService.Login(vm.email, vm.password, function (response) {
         if (response.success) {
-          authService.SetCredentials(vm.username, vm.password);
+          console.log('Login successfully');
+          authService.SetCredentials(vm.email, vm.password);
           $location.path('/');
         } else {
-          vm.loading = false;
+          console.log(response.message);
         }
       });
     };
 
     function register() {
-      console.log('Opening register modal');
       var registerModal = $uibModal.open({
                                       templateUrl: 'views/modals/register.html',
                                       controller: 'RegisterController',
@@ -42,7 +40,6 @@ finApp.controller('LoginController', [ '$location', 'authService', '$uibModal',
       registerModal.result.then(function() {
 
       }, function () {
-        console.log('Register modal dismissed');
       });
     };
 

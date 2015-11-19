@@ -8,9 +8,7 @@ finApp.directive('confirmPassword', [function () {
       var checker = function () {
                                   var e1 = scope.$eval(attrs.ngModel);
                                   var e2 = scope.$eval(attrs.confirmPassword);
-                                  console.log("Comparing "+e1+" and "+e2 );
                                   return e1 == e2;
-
                                 };
       scope.$watch(checker, function (n) {
         control.$setValidity("unique", n);

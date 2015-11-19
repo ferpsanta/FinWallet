@@ -1,5 +1,5 @@
-finApp.controller ('RegisterController', [ '$location', 'userService', '$uibModalInstance', '$sce',
-  function( $location, userService, $uibModalInstance, $sce ) {
+finApp.controller ('RegisterController', [ 'userService', '$uibModalInstance', '$sce',
+  function( userService, $uibModalInstance, $sce ) {
     console.log('Using RegisterController');
     var vm = this;
     vm.register = register;
@@ -9,19 +9,13 @@ finApp.controller ('RegisterController', [ '$location', 'userService', '$uibModa
     vm.passwordPopoverContent = $sce.trustAsHtml( "<p> Your password must contain at least 6 characters, including 1 capital letter and 1 number. </p>");
 
     function register() {
-      console.log('Trying to register...');
-
-      console.log(vm.user.name);//TODO:Remove
-      console.log(vm.user.email);//TODO:Remove
-      console.log(vm.user.password);//TODO:Remove
-
-      vm.dataLoading = true;
       userService.Create(vm.user)
           .then(function (response) {
             if (response.success) {
-              $location.path('/login');
+              console.log("Registration successful");
+              $uibModalInstance.close();
             } else {
-              vm.dataLoading = false;
+              console.log(response.message);
             }
           });
     }

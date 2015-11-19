@@ -4320,6 +4320,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   border-width: 1px 0 0;
 }
 .navbar-brand {
+  color: #fff;
   float: left;
   height: 50px;
   padding: 15px 15px;
@@ -4641,7 +4642,7 @@ fieldset[disabled] .navbar-default .btn-link:focus {
   border-color: #080808;
 }
 .navbar-inverse .navbar-brand {
-  color: #9d9d9d;
+  color: #fff;
 }
 .navbar-inverse .navbar-brand:hover,
 .navbar-inverse .navbar-brand:focus {
@@ -5995,6 +5996,8 @@ button.close {
   padding: 15px;
 }
 .modal-footer {
+  color: #adadad;
+  font-size: 12;
   padding: 15px;
   text-align: right;
   border-top: 1px solid #e5e5e5;
