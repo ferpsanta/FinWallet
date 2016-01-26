@@ -6,21 +6,11 @@ finApp.config(['$routeProvider', function($routeProvider) {
   });
 }]);
 
-
-
-
 finApp.controller('HomeController', ['$location', 'authService',
   function( $location, authService) {
     var vm = this;
 
-    vm.logout = logout;
-
-    function logout() {
-      console.log('Logout action performed!');
-      authService.ClearCredentials();
-      $location.path('/login');
-    };
-
+    console.log('Home controller active!');
 
   }
 ]);

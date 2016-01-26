@@ -3,7 +3,7 @@ var finApp = angular.module('finApp', [ 'ngRoute', 'ngCookies', 'ui.bootstrap' ]
 
 finApp.config(['$routeProvider', function($routeProvider) {
   $routeProvider
-      .otherwise({redirectTo: '/login'});
+      .otherwise({redirectTo: '/'});
 }]);
 
 finApp.run(['$rootScope', '$location', '$cookieStore', '$http',
