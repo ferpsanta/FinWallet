@@ -6,9 +6,13 @@ finApp.config(['$routeProvider', function($routeProvider) {
   });
 }]);
 
-finApp.controller('HomeController', ['$location', 'authService',
-  function( $location, authService) {
+finApp.controller('HomeController', ['$scope', '$location', 'authService', 'alertService',
+  function( $scope, $location, authService, alertService) {
     var vm = this;
+
+    $scope.alerts = alertService.getAlerts();
+
+    console.log($scope.alerts);
 
     console.log('Home controller active!');
 

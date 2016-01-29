@@ -1,5 +1,5 @@
-finApp.controller ('RegisterController', [ 'userService', '$uibModalInstance', '$sce',
-  function( userService, $uibModalInstance, $sce ) {
+finApp.controller ('RegisterController', [ 'userService', 'alertService', '$uibModalInstance', '$sce',
+  function( userService, alertService, $uibModalInstance, $sce ) {
     console.log('Using RegisterController');
     var vm = this;
     vm.register = register;
@@ -13,9 +13,11 @@ finApp.controller ('RegisterController', [ 'userService', '$uibModalInstance', '
           .then(function (response) {
             if (response.success) {
               console.log("Registration successful");
+              alertService.addAlert("success", "Registration succesful!");
               $uibModalInstance.close();
             } else {
               console.log(response.message);
+              alertService.addAlert("error", response.message);
             }
           });
     }

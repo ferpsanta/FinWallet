@@ -6,16 +6,17 @@ finApp.config(['$routeProvider', function($routeProvider) {
   });
 }]);
 
-finApp.controller('LoginController', [ '$location', 'authService', '$uibModal',
-  function( $location, authService, $uibModal) {
+finApp.controller('LoginController', [ '$scope', '$location', 'authService', 'alertService', '$uibModal',
+  function( $scope, $location, authService, alertService, $uibModal) {
 
     var vm = this;
 
     vm.login = login;
     vm.register = register;
 
+    $scope.alerts = alertService.getAlerts();
+
     (function InitController() {
-      // reset login status
       authService.ClearCredentials();
     })();
 
@@ -23,10 +24,12 @@ finApp.controller('LoginController', [ '$location', 'authService', '$uibModal',
       authService.Login(vm.email, vm.password, function (response) {
         if (response.success) {
           console.log('Login successfully');
+          alertService.addAlert( "success", "Login successfully!");
           authService.SetCredentials(vm.email, vm.password);
           $location.path('/');
         } else {
           console.log(response.message);
+          alertService.addAlert( "error", response.message);
         }
       });
     };
