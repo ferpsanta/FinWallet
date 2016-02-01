@@ -1,5 +1,5 @@
-finApp.controller('NavbarController', ['$location', 'authService',
-  function($location, authService) {
+finApp.controller('NavbarController', ['$location', 'authService', 'alertService',
+  function($location, authService, alertService) {
     var nbc = this;
 
     console.log('nbc loaded!');
@@ -9,18 +9,16 @@ finApp.controller('NavbarController', ['$location', 'authService',
     nbc.dashboard = dashboard;
 
     function home() {
-      console.log('Home action performed!');
       $location.path('/');
     };
 
     function logout() {
-      console.log('Logout action performed!');
+      alertService.addAlert("success", "User log out!");
       authService.ClearCredentials();
       $location.path('/login');
     };
 
     function dashboard() {
-      console.log('Dashboard action performed!');
       $location.path('/dashboard');
     };
 
