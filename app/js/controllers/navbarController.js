@@ -2,8 +2,6 @@ finApp.controller('NavbarController', ['$location', 'authService', 'alertService
   function($location, authService, alertService) {
     var nbc = this;
 
-    console.log('nbc loaded!');
-
     nbc.home = home;
     nbc.logout = logout;
     nbc.dashboard = dashboard;

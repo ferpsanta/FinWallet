@@ -12,9 +12,5 @@ finApp.controller('HomeController', ['$scope', '$location', 'authService', 'aler
 
     $scope.alerts = alertService.getAlerts();
 
-    console.log($scope.alerts);
-
-    console.log('Home controller active!');
-
   }
 ]);
