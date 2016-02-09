@@ -3,7 +3,7 @@ finApp.factory('yqlService',
       var service = {};
 
       /* yql stuff */
-      var queryStart = 'http://query.yahooapis.com/v1/public/yql?q=';
+      var queryStart = 'https://query.yahooapis.com/v1/public/yql?q=';
       var queryEnd = '&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&callback=JSON_CALLBACK';
 
 
