@@ -14,15 +14,20 @@ finApp.factory('authService', ['$http', '$cookieStore', '$rootScope', '$timeout'
        ----------------------------------------------*/
       $timeout(function () {
         var response;
-        userService.GetByUsername(username)
+        if (username === "demo" && password === "demo") {
+          response = { success: true };
+          callback(response);
+        } else {
+          userService.GetByUsername(username)
             .then(function (user) {
               if (user !== null && user.password === password) {
-                response = { success: true };
+                response = {success: true};
               } else {
-                response = { success: false, message: 'Username or password is incorrect' };
+                response = {success: false, message: 'Username or password is incorrect'};
               }
               callback(response);
             });
+        }
       }, 1000);
 
       /* Use this for real authentication
