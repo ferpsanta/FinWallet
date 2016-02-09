@@ -32,7 +32,7 @@ finApp.controller('LoginController', [ '$scope', '$location', 'authService', 'al
           alertService.addAlert( "error", response.message);
         }
       });
-    };
+    }
 
     function register() {
       var registerModal = $uibModal.open({
@@ -44,7 +44,7 @@ finApp.controller('LoginController', [ '$scope', '$location', 'authService', 'al
 
       }, function () {
       });
-    };
+    }
 
 
 }]);

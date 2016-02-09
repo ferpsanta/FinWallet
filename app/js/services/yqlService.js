@@ -1,5 +1,5 @@
 finApp.factory('yqlService',
-    function () {
+    function ($http, $q) {
       var service = {};
 
       /* yql stuff */
@@ -9,6 +9,8 @@ finApp.factory('yqlService',
 
       service.getCurrentValue = getCurrentValue;
       service.getHistoricalData = getHistoricalData;
+      service.getSetCurrentValue = getSetCurrentValue;
+      service.getSetHistoricalData = getSetHistoricalData;
 
       return service;
 
@@ -18,14 +20,23 @@ finApp.factory('yqlService',
       }
 
       function getCurrentValue (symbol){
+        var deferred = $q.defer();
         var queryBody = 'select * from yahoo.finance.quote \
                           where symbol = "' + symbol + '"';
         var url = queryStart + parseYQL(queryBody) + queryEnd;
 
-        console.log (url);
+
+        $http.jsonp(url).success(function(json) {
+          var quote = json.query.results.quote;
+          deferred.resolve(quote);
+        }).error(function(error) {
+          console.log(JSON.stringify(error));
+        });
+        return deferred.promise;
       }
 
       function getHistoricalData (symbol, startDate, endDate) {
+        var deferred = $q.defer();
         var queryBody = 'select * from yahoo.finance.historicaldata \
                           where symbol = "' + symbol + '"           \
                           and startDate = "' + startDate + '"       \
@@ -33,8 +44,55 @@ finApp.factory('yqlService',
         var url = queryStart + parseYQL(queryBody) + queryEnd;
 
         console.log(url);
+
+        $http.jsonp(url).success(function(json) {
+          var quote = json.query.results.quote;
+          deferred.resolve(quote);
+        }).error(function(error) {
+          console.log(JSON.stringify(error));
+        });
+        return deferred.promise;
+      }
+
+      function getSetHistoricalData (symbolSet, startDate, endDate) {
+        var deferred = $q.defer();
+
+
+        var queryBody = 'select * from yahoo.finance.historicaldata \
+                          where symbol = "' + symbol + '"           \
+                          and startDate = "' + startDate + '"       \
+                          and endDate = "' + endDate + '"';
+        var url = queryStart + parseYQL(queryBody) + queryEnd;
+
+        console.log(url);
+
+        $http.jsonp(url).success(function(json) {
+          var quote = json.query.results.quote;
+          deferred.resolve(quote);
+        }).error(function(error) {
+          console.log(JSON.stringify(error));
+        });
+        return deferred.promise;
+      }
+
+      function getSetCurrentValue (symbolSet, startDate, endDate) {
+        var deferred = $q.defer();
+
+        var queryBody = 'select * from yahoo.finance.historicaldata \
+                          where symbol in ("' + symbol + '")        \
+                          and startDate = "' + startDate + '"       \
+                          and endDate = "' + endDate + '"';
+        var url = queryStart + parseYQL(queryBody) + queryEnd;
+
+        console.log(url);
+
+        $http.jsonp(url).success(function(json) {
+          var quote = json.query.results.quote;
+          deferred.resolve(quote);
+        }).error(function(error) {
+          console.log(JSON.stringify(error));
+        });
+        return deferred.promise;
       }
     }
-);/**
- * Created by root on 8/02/16.
- */
+);
