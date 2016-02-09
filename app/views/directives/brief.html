@@ -3,6 +3,7 @@
   <tr>
     <th> Name </th>
     <th> Symbol </th>
+    <th> Buy Price </th>
     <th> Last Price </th>
     <th> Change </th>
     <th> Shares </th>
@@ -13,8 +14,9 @@
   <tr ng-repeat="quote in usrPortfolio">
     <td  align="left"> {{quote.companyName}} </td>
     <td  align="left"> {{quote.symbol}} </td>
+    <td  align="left"> {{quote.buyOut | currency:"€"}} </td>
     <td  align="left"> {{quote.lastPrice | currency:"€"}} </td>
-    <td  align="left"> {{quote.change}} </td>
+    <td  align="left"> {{quote.sessionChange | currency:"€"}} </td>
     <td  align="left"> {{quote.shares}} </td>
     <td  align="left"> {{quote.balance | currency:"€"}} </td>
   </tr>

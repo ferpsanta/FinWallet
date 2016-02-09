@@ -1,8 +1,9 @@
-finApp.controller('BriefController', ['$location', 'authService', 'yqlService', '$scope',
-  function($location, authService, yqlService, $scope) {
+finApp.controller('BriefController', ['$scope', '$location', '$interval', 'authService', 'yqlService',
+  function($scope, $location, $interval, authService, yqlService) {
     var bfc = this;
 
     $scope.usrPortfolio = getUserPortfolio();
+    //$interval(updateUserPortfolio, 5000);
     updateUserPortfolio();
 
     function getUserPortfolio(){
@@ -10,32 +11,35 @@ finApp.controller('BriefController', ['$location', 'authService', 'yqlService', 
       var portfolio = [ {  symbol: 'GOOGL',
         companyName: '',
         buyDate: '2015-02-25',
-        buyOut: '500.00',
+        buyOut: '632.10',
         lastPrice: '',
         shares: '123',
         balance: ''
       },
-        { symbol: 'GOOGL',
+        { symbol: 'YHOO',
           companyName: '',
           buyDate: '2015-02-25',
-          buyOut: '500.00',
+          buyOut: '22.23',
           lastPrice: '',
+          sessionChange: '',
           shares: '100',
           balance: ''
         },
-        { symbol: 'GOOGL',
+        { symbol: 'MSFT',
           companyName: '',
           buyDate: '2015-02-25',
-          buyOut: '500.00',
+          buyOut: '55.00',
           lastPrice: '',
+          sessionChange: '',
           shares: '52',
           balance: ''
         },
-        { symbol: 'GOOGL',
+        { symbol: 'AAPL',
           companyName: '',
           buyDate: '2015-02-25',
-          buyOut: '500.00',
+          buyOut: '78.98',
           lastPrice: '',
+          sessionChange: '',
           shares: '34',
           balance: ''
         } ];
@@ -44,16 +48,26 @@ finApp.controller('BriefController', ['$location', 'authService', 'yqlService', 
     }
 
     function updateUserPortfolio(){
+      var symbolSet = [];
+      var userQuote;
+      var quote;
+
       angular.forEach( $scope.usrPortfolio, function (quote){
-        var promise = yqlService.getCurrentValue (quote.symbol);
-        promise.then(function(data){
-          console.log(data);
-          quote.companyName = data.Name;
-          quote.lastPrice = data.LastTradePriceOnly;
-          quote.balance = (quote.lastPrice*quote.shares)-(quote.buyOut*quote.shares);
-        });
+        symbolSet.push(quote.symbol);
+      });
+      var promise = yqlService.getSetCurrentValue(symbolSet);
+      promise.then(function(data){
+
+        for (var i = 0; i < data.length; i++) {
+          userQuote = $scope.usrPortfolio[i];
+          quote = data[i];
+
+          userQuote.companyName = quote.Name;
+          userQuote.lastPrice = quote.LastTradePriceOnly;
+          userQuote.sessionChange = quote.Change;
+          userQuote.balance = (userQuote.lastPrice-userQuote.buyOut)*userQuote.shares;
+        }
       });
     }
-
   }
 ]);

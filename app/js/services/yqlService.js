@@ -10,15 +10,15 @@ finApp.factory('yqlService',
       service.getCurrentValue = getCurrentValue;
       service.getHistoricalData = getHistoricalData;
       service.getSetCurrentValue = getSetCurrentValue;
-      service.getSetHistoricalData = getSetHistoricalData;
 
       return service;
 
-      /* Encodes and replace some special characters */
+      /* parseYQL encodes and replace some special characters */
       function parseYQL(query) {
         return encodeURIComponent(query).replace(/[!'()]/g, escape).replace(/\*/g, "%2A").replace(/\"/g, "%22");
       }
 
+      /* getCurrentValue given a symbol gets it's current quote*/
       function getCurrentValue (symbol){
         var deferred = $q.defer();
         var queryBody = 'select * from yahoo.finance.quote \
@@ -35,6 +35,7 @@ finApp.factory('yqlService',
         return deferred.promise;
       }
 
+      /* getHistoricalData gets symbols history given two dates (start and end) */
       function getHistoricalData (symbol, startDate, endDate) {
         var deferred = $q.defer();
         var queryBody = 'select * from yahoo.finance.historicaldata \
@@ -43,8 +44,6 @@ finApp.factory('yqlService',
                           and endDate = "' + endDate + '"';
         var url = queryStart + parseYQL(queryBody) + queryEnd;
 
-        console.log(url);
-
         $http.jsonp(url).success(function(json) {
           var quote = json.query.results.quote;
           deferred.resolve(quote);
@@ -54,37 +53,13 @@ finApp.factory('yqlService',
         return deferred.promise;
       }
 
-      function getSetHistoricalData (symbolSet, startDate, endDate) {
+      /* getSetCurrentValue given a symbol list, gets their current quotes */
+      function getSetCurrentValue (symbolSet) {
         var deferred = $q.defer();
 
-
-        var queryBody = 'select * from yahoo.finance.historicaldata \
-                          where symbol = "' + symbol + '"           \
-                          and startDate = "' + startDate + '"       \
-                          and endDate = "' + endDate + '"';
+        var queryBody = 'select * from yahoo.finance.quote \
+                          where symbol in ("' + symbolSet.join('", "') + '")';
         var url = queryStart + parseYQL(queryBody) + queryEnd;
-
-        console.log(url);
-
-        $http.jsonp(url).success(function(json) {
-          var quote = json.query.results.quote;
-          deferred.resolve(quote);
-        }).error(function(error) {
-          console.log(JSON.stringify(error));
-        });
-        return deferred.promise;
-      }
-
-      function getSetCurrentValue (symbolSet, startDate, endDate) {
-        var deferred = $q.defer();
-
-        var queryBody = 'select * from yahoo.finance.historicaldata \
-                          where symbol in ("' + symbol + '")        \
-                          and startDate = "' + startDate + '"       \
-                          and endDate = "' + endDate + '"';
-        var url = queryStart + parseYQL(queryBody) + queryEnd;
-
-        console.log(url);
 
         $http.jsonp(url).success(function(json) {
           var quote = json.query.results.quote;

@@ -49,6 +49,7 @@ body {
     vertical-align: top;
 }
 .cover-container {
+    margin-top: 60px;
     margin-right: auto;
     margin-left: auto;
 }
@@ -158,6 +159,6 @@ body {
     .masthead,
     .mastfoot,
     .cover-container {
-        width: 700px;
+        width: 85%;
     }
 }
