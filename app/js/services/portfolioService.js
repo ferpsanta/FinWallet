@@ -17,10 +17,8 @@ finApp.factory('portfolioService', [ 'yqlService',
 
     function setPortfolio(email) {
       portfolio = getByEmail(email);
-
       if( portfolio.length > 0) {
-        //Portfolio first update
-        updatePortfolio();
+        updatePortfolio();// Portfolio first update
       }
     }
 
@@ -48,6 +46,21 @@ finApp.factory('portfolioService', [ 'yqlService',
           userQuote.lastPrice = quote.LastTradePriceOnly;
           userQuote.sessionChange = quote.Change;
           userQuote.balance = (userQuote.lastPrice-userQuote.buyOut)*userQuote.shares;
+
+          if (userQuote.balance > 0) {
+            userQuote.valuableInfo.signBalance = 'positive';
+          } else if (userQuote.balance < 0) {
+            userQuote.valuableInfo.signBalance = 'negative';
+          } else {
+            userQuote.valuableInfo.signBalance = 'neutral';
+          }
+          if (userQuote.sessionChange > 0) {
+            userQuote.valuableInfo.signChange = 'positive';
+          } else if (userQuote.sessionChange < 0) {
+            userQuote.valuableInfo.signChange = 'negative';
+          } else {
+            userQuote.valuableInfo.signChange = 'neutral';
+          }
         }
       });
     }
@@ -60,7 +73,10 @@ finApp.factory('portfolioService', [ 'yqlService',
                         lastPrice: '',
                         shares: shares,
                         commission: commission,
-                        balance: ''
+                        balance: '',
+                        valuableInfo: { signChange:'',
+                                        signBalance:''
+                                      }
                       });
     }
 
@@ -86,7 +102,10 @@ finApp.factory('portfolioService', [ 'yqlService',
           buyOut: '632.10',
           lastPrice: '',
           shares: '123',
-          balance: ''
+          balance: '',
+          valuableInfo: { signChange:'',
+                          signBalance:''
+          }
         },
           {
             symbol: 'YHOO',
@@ -96,7 +115,10 @@ finApp.factory('portfolioService', [ 'yqlService',
             lastPrice: '',
             sessionChange: '',
             shares: '100',
-            balance: ''
+            balance: '',
+            valuableInfo: { signChange:'',
+                            signBalance:''
+            }
           },
           {
             symbol: 'MSFT',
@@ -106,7 +128,10 @@ finApp.factory('portfolioService', [ 'yqlService',
             lastPrice: '',
             sessionChange: '',
             shares: '52',
-            balance: ''
+            balance: '',
+            valuableInfo: { signChange:'',
+                            signBalance:''
+            }
           },
           {
             symbol: 'AAPL',
@@ -116,7 +141,10 @@ finApp.factory('portfolioService', [ 'yqlService',
             lastPrice: '',
             sessionChange: '',
             shares: '34',
-            balance: ''
+            balance: '',
+            valuableInfo: { signChange:'',
+                            signBalance:''
+            }
           }];
       } else {
         var portfolio = [];

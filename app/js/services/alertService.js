@@ -1,5 +1,5 @@
-finApp.factory('alertService',
-  function () {
+finApp.factory('alertService', [ '$interval',
+  function ($interval) {
     var service = {};
     alerts = [];
 
@@ -8,6 +8,13 @@ finApp.factory('alertService',
     service.closeAlertIndex = closeAlertIndex;
     service.clearAlerts = clearAlerts;
     service.getAlerts = getAlerts;
+    service.updateAlerts = updateAlerts;
+
+    $interval(function(){
+      if(alerts.length > 0) {
+        updateAlerts();
+      }
+    }, 500);
 
     return service;
 
@@ -38,5 +45,15 @@ finApp.factory('alertService',
     function getAlerts (){
       return alerts;
     }
+
+    function updateAlerts(){
+      angular.forEach( alerts, function (alert){
+        if(alert.timeout <= 0) {
+          closeAlert(alert);
+        } else {
+          alert.timeout-=500;
+        }
+      });
+    }
   }
-);
+]);

@@ -5,7 +5,7 @@ finApp.controller('BriefController', ['$scope', '$interval', 'portfolioService',
     $scope.usrPortfolio = portfolioService.getPortfolio();
     $interval(function(){
       if (portfolioService.getPortfolio().length > 0) {
-        portfolioService.updatePortfolio()
+        portfolioService.updatePortfolio();
       }
     }, 5000);
 

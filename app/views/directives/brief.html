@@ -16,9 +16,13 @@
     <td  align="left"> {{quote.symbol}} </td>
     <td  align="left"> {{quote.buyOut | currency:"€"}} </td>
     <td  align="left"> {{quote.lastPrice | currency:"€"}} </td>
-    <td  align="left"> {{quote.sessionChange | currency:"€"}} </td>
+    <td  align="left"
+         data-ng-style="quote.valuableInfo.signChange == 'negative' && { 'color': '#FF4141' } ||
+                   quote.valuableInfo.signChange == 'positive' && { 'color': '#00FF80' } "> {{quote.sessionChange | currency:"€"}} </td>
     <td  align="left"> {{quote.shares}} </td>
-    <td  align="left"> {{quote.balance | currency:"€"}} </td>
+    <td  align="left"
+         data-ng-style="quote.valuableInfo.signBalance == 'negative' && { 'color': '#FF4141' } ||
+                   quote.valuableInfo.signBalance == 'positive' && { 'color': '#00FF80' } "> {{quote.balance | currency:"€"}} </td>
   </tr>
   </tbody>
 </table>
