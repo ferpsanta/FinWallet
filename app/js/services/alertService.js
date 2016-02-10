@@ -11,10 +11,12 @@ finApp.factory('alertService',
 
     return service;
 
-    function addAlert (type, msg){
+    function addAlert (type, msg, timeout){
+      timeout = typeof timeout !== 'undefined' ? timeout : 5000;// Default timeout value
       alerts.push(
         { 'type': type,
           'msg': msg,
+          'timeout': timeout,
           close: function(){
             return closeAlert(this);
           }

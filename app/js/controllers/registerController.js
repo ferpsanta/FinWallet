@@ -9,7 +9,7 @@ finApp.controller ('RegisterController', [ 'userService', 'alertService', '$uibM
     vm.passwordPopoverContent = $sce.trustAsHtml( "<p> Your password must contain at least 6 characters, including 1 capital letter and 1 number. </p>");
 
     function register() {
-      userService.Create(vm.user)
+      userService.create(vm.user)
           .then(function (response) {
             if (response.success) {
               console.log("Registration successful");

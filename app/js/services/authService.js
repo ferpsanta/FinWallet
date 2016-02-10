@@ -2,13 +2,13 @@ finApp.factory('authService', ['$http', '$cookieStore', '$rootScope', '$timeout'
   function ($http, $cookieStore, $rootScope, $timeout, userService) {
     var service = {};
 
-    service.Login = Login;
-    service.SetCredentials = SetCredentials;
-    service.ClearCredentials = ClearCredentials;
+    service.login = login;
+    service.setCredentials = setCredentials;
+    service.clearCredentials = clearCredentials;
 
     return service;
 
-    function Login(username, password, callback) {
+    function login(username, password, callback) {
 
       /* Dummy authentication for testing, uses $timeout to simulate api call
        ----------------------------------------------*/
@@ -18,7 +18,7 @@ finApp.factory('authService', ['$http', '$cookieStore', '$rootScope', '$timeout'
           response = { success: true };
           callback(response);
         } else {
-          userService.GetByUsername(username)
+          userService.getByEmail(username)
             .then(function (user) {
               if (user !== null && user.password === password) {
                 response = {success: true};
@@ -39,7 +39,7 @@ finApp.factory('authService', ['$http', '$cookieStore', '$rootScope', '$timeout'
 
     }
 
-    function SetCredentials(username, password) {
+    function setCredentials(username, password) {
       var authdata = Base64.encode(username + ':' + password);
 
       $rootScope.globals = {
@@ -53,7 +53,7 @@ finApp.factory('authService', ['$http', '$cookieStore', '$rootScope', '$timeout'
       $cookieStore.put('globals', $rootScope.globals);
     }
 
-    function ClearCredentials() {
+    function clearCredentials() {
       $rootScope.globals = {};
       $cookieStore.remove('globals');
       $http.defaults.headers.common.Authorization = 'Basic ';

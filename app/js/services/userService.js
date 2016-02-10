@@ -2,22 +2,22 @@ finApp.factory('userService', ['$timeout', '$filter', '$q',
   function ($timeout, $filter, $q) {
     var service = {};
 
-    service.GetAll = GetAll;
-    service.GetById = GetById;
-    service.GetByUsername = GetByUsername;
-    service.Create = Create;
-    service.Update = Update;
+    service.getAll = getAll;
+    service.getById = getById;
+    service.getByEmail = getByEmail;
+    service.create = create;
+    service.update = update;
     service.Delete = Delete;
 
     return service;
 
-    function GetAll() {
+    function getAll() {
       var deferred = $q.defer();
       deferred.resolve(getUsers());
       return deferred.promise;
     }
 
-    function GetById(id) {
+    function getById(id) {
       var deferred = $q.defer();
       var filtered = $filter('filter')(getUsers(), { id: id });
       var user = filtered.length ? filtered[0] : null;
@@ -25,7 +25,7 @@ finApp.factory('userService', ['$timeout', '$filter', '$q',
       return deferred.promise;
     }
 
-    function GetByUsername(email) {
+    function getByEmail(email) {
       var deferred = $q.defer();
       var filtered = $filter('filter')(getUsers(), { email: email });
       var user = filtered.length ? filtered[0] : null;
@@ -33,12 +33,12 @@ finApp.factory('userService', ['$timeout', '$filter', '$q',
       return deferred.promise;
     }
 
-    function Create(user) {
+    function create(user) {
       var deferred = $q.defer();
 
       // simulate api call with $timeout
       $timeout(function () {
-        GetByUsername(user.email)
+        getByEmail(user.email)
             .then(function (duplicateUser) {
               if (duplicateUser !== null) {
                 deferred.resolve({ success: false, message: 'This "' + user.email + '" is already in use' });
@@ -61,7 +61,7 @@ finApp.factory('userService', ['$timeout', '$filter', '$q',
       return deferred.promise;
     }
 
-    function Update(user) {
+    function update(user) {
       var deferred = $q.defer();
 
       var users = getUsers();

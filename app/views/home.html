@@ -5,16 +5,18 @@
 
 <!-- Alerts -->
 
-<div class="alert alert-dismissible" role="alert"
+<center>
+  <div class="alert alert-dismissible " role="alert"
      ng-class="{ 'alert-success': alert.type == 'success',
                  'alert-warning': alert.type == 'warning',
                  'alert-info': alert.type == 'info',
                  'alert-danger': alert.type == 'error'}"
      ng-repeat="alert in alerts">
- <button type="button" class="close" aria-label="Close" ng-click="alert.close()">
-  <span aria-hidden="true">&times;</span></button>
- {{ alert.msg }}
-</div>
+   <button type="button" class="close" aria-label="Close" ng-click="alert.close()">
+    <span aria-hidden="true">&times;</span></button>
+   {{ alert.msg }}
+  </div>
+</center>
 
 <!-- Body -->
 
