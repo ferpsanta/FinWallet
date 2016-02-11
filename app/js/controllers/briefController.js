@@ -2,6 +2,8 @@ finApp.controller('BriefController', ['$scope', '$interval', '$rootScope', 'user
   function($scope, $interval, $rootScope, userService, portfolioService) {
     var bfc = this;
 
+    bfc.addQuote = addQuote;
+
     (function InitController() {
       portfolioService.setPortfolio($rootScope.globals.currentUser.username);
     })();
@@ -17,5 +19,9 @@ finApp.controller('BriefController', ['$scope', '$interval', '$rootScope', 'user
       $interval.cancel(stopUpdater);
     });
 
+
+    function addQuote() {
+
+    }
   }
 ]);

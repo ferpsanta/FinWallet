@@ -3121,6 +3121,72 @@ fieldset[disabled] .btn-default.active {
   color: #fff;
   background-color: #333;
 }
+
+.btn-option {
+  color: #fff;
+  padding: 3px 8px;
+  border-radius: 6px;
+  border: none;
+  background: none;
+}
+.btn-option:focus,
+.btn-option.focus {
+  color: #3a3a3a;
+  background-color: #9d9d9d;
+}
+.btn-option:hover {
+  color: #3a3a3a;
+  background-color: #9d9d9d;
+}
+.btn-option:active,
+.btn-option.active,
+.open > .dropdown-toggle.btn-option {
+  color: #3a3a3a;
+  background-color: #9d9d9d;
+}
+.btn-option:active:hover,
+.btn-option.active:hover,
+.open > .dropdown-toggle.btn-option:hover,
+.btn-option:active:focus,
+.btn-option.active:focus,
+.open > .dropdown-toggle.btn-option:focus,
+.btn-option:active.focus,
+.btn-option.active.focus,
+.open > .dropdown-toggle.btn-option.focus {
+  color: #3a3a3a;
+  background-color: #9d9d9d;
+}
+.btn-option:active,
+.btn-option.active,
+.open > .dropdown-toggle.btn-option {
+  background-image: none;
+}
+.btn-option.disabled,
+.btn-option[disabled],
+fieldset[disabled] .btn-option,
+.btn-option.disabled:hover,
+.btn-option[disabled]:hover,
+fieldset[disabled] .btn-option:hover,
+.btn-option.disabled:focus,
+.btn-option[disabled]:focus,
+fieldset[disabled] .btn-option:focus,
+.btn-option.disabled.focus,
+.btn-option[disabled].focus,
+fieldset[disabled] .btn-option.focus,
+.btn-option.disabled:active,
+.btn-option[disabled]:active,
+fieldset[disabled] .btn-option:active,
+.btn-option.disabled.active,
+.btn-option[disabled].active,
+fieldset[disabled] .btn-option.active {
+  background-color: #9d9d9d;
+  border-color: #fff;
+}
+.btn-option .badge {
+  color: #fff;
+  background-color: #3a3a3a;
+}
+
 .btn-primary {
   color: #fff;
   background-color: #337ab7;
@@ -5886,6 +5952,22 @@ button.list-group-item-danger.active:focus {
   padding: 9px;
   border-radius: 3px;
 }
+
+.well-animate-hide {
+  transition: all linear 0.5s;
+  line-height: 20px;
+  opacity: 1;
+  padding: 10px;
+  border: 1px solid black;
+  background: white;
+}
+
+.well-animate-hide.ng-hide {
+  line-height: 0;
+  opacity: 0;
+  padding: 0 10px;
+}
+
 .close {
   float: right;
   font-size: 21px;
