@@ -39,27 +39,31 @@ finApp.factory('portfolioService', [ 'yqlService',
       promise.then(function(data){
 
         for (var i = 0; i < data.length; i++) {
-          userQuote = portfolio[i];
-          quote = data[i];
+          for (var j = 0; j < portfolio.length; j++) {
+            if(data[i].symbol === portfolio[j].symbol){
+              userQuote = portfolio[j];
+              quote = data[i];
 
-          userQuote.companyName = quote.Name;
-          userQuote.lastPrice = quote.LastTradePriceOnly;
-          userQuote.sessionChange = quote.Change;
-          userQuote.balance = (userQuote.lastPrice-userQuote.buyOut)*userQuote.shares;
+              userQuote.companyName = quote.Name;
+              userQuote.lastPrice = quote.LastTradePriceOnly;
+              userQuote.sessionChange = quote.Change;
+              userQuote.balance = (userQuote.lastPrice - userQuote.buyOut) * userQuote.shares;
 
-          if (userQuote.balance > 0) {
-            userQuote.valuableInfo.signBalance = 'positive';
-          } else if (userQuote.balance < 0) {
-            userQuote.valuableInfo.signBalance = 'negative';
-          } else {
-            userQuote.valuableInfo.signBalance = 'neutral';
-          }
-          if (userQuote.sessionChange > 0) {
-            userQuote.valuableInfo.signChange = 'positive';
-          } else if (userQuote.sessionChange < 0) {
-            userQuote.valuableInfo.signChange = 'negative';
-          } else {
-            userQuote.valuableInfo.signChange = 'neutral';
+              if (userQuote.balance > 0) {
+                userQuote.valuableInfo.signBalance = 'positive';
+              } else if (userQuote.balance < 0) {
+                userQuote.valuableInfo.signBalance = 'negative';
+              } else {
+                userQuote.valuableInfo.signBalance = 'neutral';
+              }
+              if (userQuote.sessionChange > 0) {
+                userQuote.valuableInfo.signChange = 'positive';
+              } else if (userQuote.sessionChange < 0) {
+                userQuote.valuableInfo.signChange = 'negative';
+              } else {
+                userQuote.valuableInfo.signChange = 'neutral';
+              }
+            }
           }
         }
       });
