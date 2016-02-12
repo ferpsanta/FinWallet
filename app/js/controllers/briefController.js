@@ -21,7 +21,7 @@ finApp.controller('BriefController', ['$scope', '$interval', '$rootScope', 'user
 
 
     function addQuote() {
-
+      console.log("New Quote Added");
     }
   }
 ]);

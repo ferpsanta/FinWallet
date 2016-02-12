@@ -33,123 +33,23 @@
       <td></td>
       <td></td>
       <td></td>
-      <td><button class="btn-option" ng-click="showAddNewQuote=true"> <span class="glyphicon glyphicon-plus" aria-hidden="true"> </span> Add Quote </button></td>
+      <td><button class="btn-option" ng-click="showAddNewQuote=!showAddNewQuote"> <span class="glyphicon glyphicon-plus" aria-hidden="true"> </span> Add Quote </button></td>
     </tr>
   </tfoot>
 </table>
 
-<div class="well well-animate-hide" ng-show="showAddNewQuote">
-<form class="form-horizontal" name="form" ng-submit="vm.register()" role="form">
-
-  <!-- Name Input -->
-  <div class="form-group"
-       ng-class="{ 'has-error': (form.name.$dirty && (form.name.$error.required || form.name.$error.email)),
-                         'has-success': (form.name.$dirty && form.name.$valid)}">
-    <div name="nameGroup" class="input-group col-xs-10 col-xs-offset-1">
-          <span class="input-group-addon">
-            <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-          </span>
-      <input type="text" class="form-control" name="name" id="name" placeholder="Full name"
-             ng-model="vm.user.name"
-             ng-model-options="{ updateOn: 'blur' }"  required/>
-          <span class=" form-control-feedback glyphicon"
-                ng-show="form.name.$dirty"
-                ng-class="{ 'glyphicon-ok' : form.name.$valid }">
-          </span>
-    </div>
-    <div ng-if="form.name.$dirty && form.name.$invalid">
-          <span class="help-block has-error" for="nameGroup" role="alert">
-            <div ng-show="form.name.$error.required">This field is required</div>
-          </span>
-    </div>
+<div ng-hide="!showAddNewQuote">
+  <div class="well">
+    <form class="well-form-inline">
+      <div class="form-group">
+        <label for="exampleInputName2">Name</label>
+        <input type="text" class="form-control" id="exampleInputName2" placeholder="Jane Doe">
+      </div>
+      <div class="form-group">
+        <label for="exampleInputEmail2">Email</label>
+        <input type="email" class="form-control" id="exampleInputEmail2" placeholder="jane.doe@example.com">
+      </div>
+      <button class="btn-option-well" ng-click="showAddNewQuote=!showAddNewQuote; bfc.addQuote()"> <span class="glyphicon glyphicon-plus" aria-hidden="true"> </span> Add Quote </button>
+    </form>
   </div>
-
-  <!-- Email Address Input -->
-  <div class="form-group"
-       ng-class="{ 'has-error': (form.email.$dirty && (form.email.$error.required || form.email.$error.email)),
-                       'has-success': (form.email.$dirty && form.email.$valid)}">
-    <div name="emailGroup" class="input-group col-xs-10 col-xs-offset-1">
-          <span class="input-group-addon">
-            <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
-          </span>
-      <input type="email" class="form-control" name="email" id="email" placeholder="Email Address"
-             ng-model="vm.user.email"
-             ng-model-options="{ updateOn: 'blur' }"  required/>
-          <span class=" form-control-feedback glyphicon"
-                ng-show="form.email.$dirty"
-                ng-class="{ 'glyphicon-remove' : (form.email.$error.required || form.email.$error.email),
-                            'glyphicon-ok' : form.email.$valid }">
-          </span>
-    </div>
-    <div ng-if="form.email.$dirty && form.email.$invalid">
-          <span class="help-block has-error" for="emailGroup" role="alert">
-            <div ng-show="form.email.$error.required">This field is required</div>
-            <div ng-show="form.email.$error.email">Your email address is invalid</div>
-          </span>
-    </div>
-  </div>
-
-  <!-- Password Input -->
-  <div class="form-group"
-       ng-class="{ 'has-error': (form.password.$dirty && (form.password.$error.required || form.password.$error.pattern || form.$error.minlength)),
-                       'has-success': (form.password.$dirty && form.password.$valid)}">
-    <div name="passwordGroup" class="input-group col-xs-10 col-xs-offset-1">
-          <span class="input-group-addon">
-            <span class="glyphicon glyphicon-lock" aria-hidden="true"></span>
-          </span>
-      <input type="password" class="form-control" name="password" id="password" placeholder="Password"
-             ng-model="vm.user.password"
-             ng-minlength="6"
-             ng-pattern="/(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z])/"
-             popover-title="Remember..."
-             uib-popover-html=vm.passwordPopoverContent
-             popover-placement="top"
-             popover-trigger="focus" required/>
-          <span class=" form-control-feedback glyphicon"
-                ng-show="form.password.$dirty"
-                ng-class="{ 'glyphicon-remove' : (form.password.$error.required || form.password.$error.pattern || form.$error.minlength),
-                            'glyphicon-ok' : form.password.$valid }">
-          </span>
-    </div>
-    <div ng-if="form.password.$dirty && form.password.$invalid">
-          <span class="help-block has-error" for="passwordGroup" role="alert">
-            <div ng-show="form.password.$error.required">This field is required</div>
-            <div ng-show="form.password.$error.pattern">Password doesn't meet the requirements</div>
-            <div ng-show="form.password.$error.minlength">Password is too short (min. 6 characters)</div>
-          </span>
-    </div>
-  </div>
-
-  <!-- Confirm Password Input -->
-  <div class="form-group"
-       ng-show="form.password.$valid"
-       ng-class="{ 'has-error': (form.confirmPassword.$dirty && (form.confirmPassword.$error.required || !form.confirmPassword.$valid)),
-                       'has-success': (form.confirmPassword.$dirty && form.confirmPassword.$valid)}">
-    <div name="passwordGroup" class="input-group col-xs-10 col-xs-offset-1">
-          <span class="input-group-addon">
-            <span class="glyphicon glyphicon-repeat" aria-hidden="true"></span>
-          </span>
-      <input type="password" class="form-control" name="confirmPassword" id="confirmPassword" placeholder="Confirm Password"
-             ng-model="vm.user.confirmPassword"
-             confirm-password="vm.user.password" required>
-          <span class=" form-control-feedback glyphicon"
-                ng-show="form.confirmPassword.$dirty"
-                ng-class="{ 'glyphicon-remove' : (form.confirmPassword.$dirty && (form.confirmPassword.$error.required || !form.confirmPassword.$valid)),
-                            'glyphicon-ok' : (form.confirmPassword.$dirty && form.confirmPassword.$valid)}">
-          </span>
-    </div>
-    <div ng-if="form.confirmPassword.$dirty && form.confirmPassword.$invalid">
-          <span class="help-block has-error" for="passwordGroup" role="alert">
-            <div ng-show="form.confirmPassword.$error.required">This field is required</div>
-            <div ng-show="!form.confirmPassword.$valid">Passwords must match</div>
-          </span>
-    </div>
-  </div>
-
-  <!-- Form Summit Button -->
-  <button type="submit" class="login-button" ng-disabled="form.$invalid">
-    <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
-  </button>
-</form>
 <div>
-

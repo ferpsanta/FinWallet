@@ -2937,6 +2937,7 @@ select[multiple].input-lg {
     width: 100%;
   }
   .form-inline .control-label {
+    color: #5e5e5e;
     margin-bottom: 0;
     vertical-align: middle;
   }
@@ -2960,6 +2961,58 @@ select[multiple].input-lg {
     top: 0;
   }
 }
+
+@media (min-width: 768px) {
+  .well-form-inline .form-group {
+    display: inline-block;
+    margin-bottom: 0;
+    vertical-align: middle;
+  }
+  .well-form-inline .form-control {
+    display: inline-block;
+    width: auto;
+    vertical-align: middle;
+  }
+  .well-form-inline .form-control-static {
+    display: inline-block;
+  }
+  .well-form-inline .input-group {
+    display: inline-table;
+    vertical-align: middle;
+  }
+  .well-form-inline .input-group .input-group-addon,
+  .well-form-inline .input-group .input-group-btn,
+  .well-form-inline .input-group .form-control {
+    width: auto;
+  }
+  .well-form-inline .input-group > .form-control {
+    width: 100%;
+  }
+  .well-form-inline .control-label {
+    margin-bottom: 0;
+    vertical-align: middle;
+  }
+  .well-form-inline .radio,
+  .well-form-inline .checkbox {
+    display: inline-block;
+    margin-top: 0;
+    margin-bottom: 0;
+    vertical-align: middle;
+  }
+  .well-form-inline .radio label,
+  .well-form-inline .checkbox label {
+    padding-left: 0;
+  }
+  .well-form-inline .radio input[type="radio"],
+  .well-form-inline .checkbox input[type="checkbox"] {
+    position: relative;
+    margin-left: 0;
+  }
+  .well-form-inline .has-feedback .form-control-feedback {
+    top: 0;
+  }
+}
+
 .form-horizontal .radio,
 .form-horizontal .checkbox,
 .form-horizontal .radio-inline,
@@ -3128,6 +3181,7 @@ fieldset[disabled] .btn-default.active {
   border-radius: 6px;
   border: none;
   background: none;
+  text-shadow: 0px 1px 3px rgba(0, 0, 0, 0.5);
 }
 .btn-option:focus,
 .btn-option.focus {
@@ -3184,6 +3238,73 @@ fieldset[disabled] .btn-option.active {
 }
 .btn-option .badge {
   color: #fff;
+  background-color: #3a3a3a;
+}
+
+
+.btn-option-well {
+  color: #3a3a3a;
+  padding: 3px 8px;
+  border-radius: 6px;
+  border: none;
+  background: none;
+  text-shadow: 0px 1px 3px rgba(0, 0, 0, 0.5);
+}
+.btn-option-well:focus,
+.btn-option-well.focus {
+  color: #fff;
+  background-color: #9d9d9d;
+}
+.btn-option-well:hover {
+  color: #fff;
+  background-color: #9d9d9d;
+}
+.btn-option-well:active,
+.btn-option-well.active,
+.open > .dropdown-toggle.btn-option-well {
+  color: #fff;
+  background-color: #9d9d9d;
+}
+.btn-option-well:active:hover,
+.btn-option-well.active:hover,
+.open > .dropdown-toggle.btn-option-well:hover,
+.btn-option-well:active:focus,
+.btn-option-well.active:focus,
+.open > .dropdown-toggle.btn-option-well:focus,
+.btn-option-well:active.focus,
+.btn-option-well.active.focus,
+.open > .dropdown-toggle.btn-option-well.focus {
+  color: #fff;
+  background-color: #9d9d9d;
+}
+.btn-option-well:active,
+.btn-option-well.active,
+.open > .dropdown-toggle.btn-option-well {
+  background-image: none;
+}
+.btn-option-well.disabled,
+.btn-option-well[disabled],
+fieldset[disabled] .btn-option-well,
+.btn-option-well.disabled:hover,
+.btn-option-well[disabled]:hover,
+fieldset[disabled] .btn-option-well:hover,
+.btn-option-well.disabled:focus,
+.btn-option-well[disabled]:focus,
+fieldset[disabled] .btn-option-well:focus,
+.btn-option-well.disabled.focus,
+.btn-option-well[disabled].focus,
+fieldset[disabled] .btn-option-well.focus,
+.btn-option-well.disabled:active,
+.btn-option-well[disabled]:active,
+fieldset[disabled] .btn-option-well:active,
+.btn-option-well.disabled.active,
+.btn-option-well[disabled].active,
+fieldset[disabled] .btn-option-well.active {
+  background-color: #9d9d9d;
+  border-color: #3a3a3a;
+}
+.btn-option-well .badge {
+  color: #3a3a3a;
   background-color: #3a3a3a;
 }
 
@@ -5951,21 +6072,6 @@ button.list-group-item-danger.active:focus {
 .well-sm {
   padding: 9px;
   border-radius: 3px;
-}
-
-.well-animate-hide {
-  transition: all linear 0.5s;
-  line-height: 20px;
-  opacity: 1;
-  padding: 10px;
-  border: 1px solid black;
-  background: white;
-}
-
-.well-animate-hide.ng-hide {
-  line-height: 0;
-  opacity: 0;
-  padding: 0 10px;
 }
 
 .close {

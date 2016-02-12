@@ -1,5 +1,5 @@
 // Declare app level module which depends on views, and components
-var finApp = angular.module('finApp', [ 'ngRoute', 'ngCookies', 'ui.bootstrap' ]);
+var finApp = angular.module('finApp', [ 'ngRoute', 'ngCookies', 'ngAnimate', 'ui.bootstrap' ]);
 
 finApp.config(['$routeProvider', function($routeProvider) {
   $routeProvider
