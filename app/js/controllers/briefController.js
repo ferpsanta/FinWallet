@@ -1,5 +1,5 @@
-finApp.controller('BriefController', ['$scope', '$interval', '$rootScope', 'userService', 'portfolioService',
-  function($scope, $interval, $rootScope, userService, portfolioService) {
+finApp.controller('BriefController', ['$scope', '$interval', '$rootScope', 'portfolioService',
+  function($scope, $interval, $rootScope, portfolioService) {
     var bfc = this;
 
     bfc.addQuote = addQuote;
@@ -9,6 +9,7 @@ finApp.controller('BriefController', ['$scope', '$interval', '$rootScope', 'user
     })();
 
     $scope.usrPortfolio = portfolioService.getPortfolio();
+
     stopUpdater = $interval(function(){
                     if (portfolioService.getPortfolio().length > 0) {
                       portfolioService.updatePortfolio();
@@ -19,10 +20,10 @@ finApp.controller('BriefController', ['$scope', '$interval', '$rootScope', 'user
       $interval.cancel(stopUpdater);
     });
 
-
     function addQuote() {
       console.log("New Quote Added");
-      portfolioService.addQuote(bfc.quote.symbol, bfc.quote.buyDate, bfc.quote.buyPrice, bfc.quote.commission, bfc.quote.shares);
+      portfolioService.addQuote(bfc.quote.symbol, bfc.quote.companyName, bfc.quote.buyDate,
+                                bfc.quote.buyPrice, bfc.quote.commission, bfc.quote.shares);
       $scope.usrPortfolio = portfolioService.getPortfolio();
     }
   }

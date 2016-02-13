@@ -1,5 +1,5 @@
-finApp.factory('portfolioService', [ 'yqlService',
-  function (yqlService) {
+finApp.factory('portfolioService', [ 'yqlService', 'googleFinanceService',
+  function (yqlService, googleFinanceService) {
 
     var service = {};
     portfolio = [];
@@ -35,18 +35,19 @@ finApp.factory('portfolioService', [ 'yqlService',
         symbolSet.push(quote.symbol);
       });
 
-      var promise = yqlService.getSetCurrentValue(symbolSet);
-      promise.then(function(data){
+      var promise = googleFinanceService.getSetCurrentValue(symbolSet);
 
+      promise.then(function(data){
         for (var i = 0; i < data.length; i++) {
           for (var j = 0; j < portfolio.length; j++) {
-            if(data[i].symbol === portfolio[j].symbol){
+            var dataSymbol = data[i].e+":"+data[i].t;
+            if(dataSymbol === portfolio[j].symbol){
               userQuote = portfolio[j];
               quote = data[i];
 
-              userQuote.companyName = quote.Name;
-              userQuote.lastPrice = quote.LastTradePriceOnly;
-              userQuote.sessionChange = quote.Change;
+
+              userQuote.lastPrice = quote.l;
+              userQuote.sessionChange = quote.c;
               userQuote.balance = (userQuote.lastPrice - userQuote.buyOut) * userQuote.shares;
 
               if (userQuote.balance > 0) {
@@ -69,9 +70,9 @@ finApp.factory('portfolioService', [ 'yqlService',
       });
     }
 
-    function addQuote (symbol, date, buyOut, commission, shares){
+    function addQuote (symbol, companyName, date, buyOut, commission, shares){
       portfolio.push({  symbol: symbol,
-                        companyName: '',
+                        companyName: companyName,
                         buyDate: date,
                         buyOut: buyOut,
                         lastPrice: '',
@@ -100,8 +101,8 @@ finApp.factory('portfolioService', [ 'yqlService',
       //Demo values... Not Restfull, in future this must be queried to a DB...
       if (email == 'demo') {
         var portfolio = [{
-          symbol: 'GOOGL',
-          companyName: '',
+          symbol: 'NASDAQ:GOOGL',
+          companyName: 'Alphabet Inc.',
           buyDate: '2015-02-25',
           buyOut: '632.10',
           lastPrice: '',
@@ -112,10 +113,10 @@ finApp.factory('portfolioService', [ 'yqlService',
           }
         },
           {
-            symbol: 'YHOO',
-            companyName: '',
+            symbol: 'BME:IDR',
+            companyName: 'Indra Company S.A.',
             buyDate: '2015-02-25',
-            buyOut: '22.23',
+            buyOut: '8.03',
             lastPrice: '',
             sessionChange: '',
             shares: '100',
@@ -125,10 +126,10 @@ finApp.factory('portfolioService', [ 'yqlService',
             }
           },
           {
-            symbol: 'MSFT',
-            companyName: '',
+            symbol: 'BME:ITX',
+            companyName: 'Inditex',
             buyDate: '2015-02-25',
-            buyOut: '55.00',
+            buyOut: '28.54',
             lastPrice: '',
             sessionChange: '',
             shares: '52',
@@ -138,8 +139,8 @@ finApp.factory('portfolioService', [ 'yqlService',
             }
           },
           {
-            symbol: 'AAPL',
-            companyName: '',
+            symbol: 'NASDAQ:AAPL',
+            companyName: 'Apple Inc.',
             buyDate: '2015-02-25',
             buyOut: '78.98',
             lastPrice: '',
@@ -153,7 +154,6 @@ finApp.factory('portfolioService', [ 'yqlService',
       } else {
         var portfolio = [];
       }
-
       return portfolio;
     }
 
