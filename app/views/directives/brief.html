@@ -7,33 +7,45 @@
     <th> Last Price </th>
     <th> Change </th>
     <th> Shares </th>
-    <th> Balance </th>
+    <th> Mkt Value </th>
+    <th> Gain </th>
+    <th> Overall return </th>
   </tr>
   </thead>
   <tbody>
   <tr ng-repeat="quote in usrPortfolio">
     <td  align="left"> {{quote.companyName}} </td>
-    <td  align="left"> {{quote.symbol}} </td>
+    <td  align="left"> {{quote.ticker}}:{{quote.exchange}}</td>
     <td  align="left"> {{quote.buyOut | currency:"€"}} </td>
     <td  align="left"> {{quote.lastPrice | currency:"€"}} </td>
     <td  align="left"
          data-ng-style="quote.valuableInfo.signChange == 'negative' && { 'color': '#FF4141' } ||
-                   quote.valuableInfo.signChange == 'positive' && { 'color': '#00FF80' } "> {{quote.sessionChange | currency:"€"}} </td>
+                   quote.valuableInfo.signChange == 'positive' && { 'color': '#00FF80' } ">
+      {{quote.sessionChange | currency:"€"}} ({{((100/(quote.lastPrice-quote.sessionChange))*quote.lastPrice)-100 | number:2}}%)
+    </td>
     <td  align="left"> {{quote.shares}} </td>
+    <td aling="left"> {{quote.lastPrice*quote.shares | currency:"€"}}</td>
     <td  align="left"
          data-ng-style="quote.valuableInfo.signBalance == 'negative' && { 'color': '#FF4141' } ||
-                   quote.valuableInfo.signBalance == 'positive' && { 'color': '#00FF80' } "> {{quote.balance | currency:"€"}} </td>
+                   quote.valuableInfo.signBalance == 'positive' && { 'color': '#00FF80' } ">
+      {{quote.balance | currency:"€"}} </td>
+    <td  align="left"
+         data-ng-style="quote.valuableInfo.signBalance == 'negative' && { 'color': '#FF4141' } ||
+                   quote.valuableInfo.signBalance == 'positive' && { 'color': '#00FF80' } ">
+      {{(((100/quote.buyOut)*quote.lastPrice)-100) | number:2}}% </td>
   </tr>
   </tbody>
   <tfoot ng-hide="showAddNewQuote">
     <tr>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
       <td><button class="btn-option" ng-click="showAddNewQuote=!showAddNewQuote"> <span class="glyphicon glyphicon-plus" aria-hidden="true"> </span> Add Quote </button></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
     </tr>
   </tfoot>
 </table>

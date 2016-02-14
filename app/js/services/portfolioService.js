@@ -32,38 +32,25 @@ finApp.factory('portfolioService', [ 'yqlService', 'googleFinanceService',
       var quote;
 
       angular.forEach( portfolio, function (quote){
-        symbolSet.push(quote.symbol);
+        symbolSet.push(quote.ticker+":"+quote.exchange);
       });
 
       var promise = googleFinanceService.getSetCurrentValue(symbolSet);
 
       promise.then(function(data){
+
         for (var i = 0; i < data.length; i++) {
           for (var j = 0; j < portfolio.length; j++) {
-            var dataSymbol = data[i].e+":"+data[i].t;
-            if(dataSymbol === portfolio[j].symbol){
+            if(data[i].t === portfolio[j].ticker && data[i].e === portfolio[j].exchange){
+
               userQuote = portfolio[j];
               quote = data[i];
-
 
               userQuote.lastPrice = quote.l;
               userQuote.sessionChange = quote.c;
               userQuote.balance = (userQuote.lastPrice - userQuote.buyOut) * userQuote.shares;
+              userQuote = utils.evaluateValuableInfo(userQuote);
 
-              if (userQuote.balance > 0) {
-                userQuote.valuableInfo.signBalance = 'positive';
-              } else if (userQuote.balance < 0) {
-                userQuote.valuableInfo.signBalance = 'negative';
-              } else {
-                userQuote.valuableInfo.signBalance = 'neutral';
-              }
-              if (userQuote.sessionChange > 0) {
-                userQuote.valuableInfo.signChange = 'positive';
-              } else if (userQuote.sessionChange < 0) {
-                userQuote.valuableInfo.signChange = 'negative';
-              } else {
-                userQuote.valuableInfo.signChange = 'neutral';
-              }
             }
           }
         }
@@ -71,17 +58,22 @@ finApp.factory('portfolioService', [ 'yqlService', 'googleFinanceService',
     }
 
     function addQuote (symbol, companyName, date, buyOut, commission, shares){
-      portfolio.push({  symbol: symbol,
+      var symbolSplit = symbol.split(":");
+      portfolio.push({  ticker: symbolSplit[0],
+                        exchange: symbolSplit[1],
                         companyName: companyName,
                         buyDate: date,
                         buyOut: buyOut,
                         lastPrice: '',
+                        lastPriceData: '',
                         shares: shares,
                         commission: commission,
                         balance: '',
-                        valuableInfo: { signChange:'',
-                                        signBalance:''
-                                      }
+                        valuableInfo:{
+                          signChange:'',
+                          signBalance:'',
+                          lastPriceData: ''
+                        }
                       });
     }
 
@@ -101,54 +93,69 @@ finApp.factory('portfolioService', [ 'yqlService', 'googleFinanceService',
       //Demo values... Not Restfull, in future this must be queried to a DB...
       if (email == 'demo') {
         var portfolio = [{
-          symbol: 'NASDAQ:GOOGL',
+          ticker: 'GOOGL',
+          exchange: 'NASDAQ',
           companyName: 'Alphabet Inc.',
           buyDate: '2015-02-25',
           buyOut: '632.10',
           lastPrice: '',
           shares: '123',
           balance: '',
-          valuableInfo: { signChange:'',
-                          signBalance:''
+          valuableInfo:{
+            signChange:'',
+            signBalance:'',
+            lastPriceData: ''
           }
         },
           {
-            symbol: 'BME:IDR',
+            ticker: 'IDR',
+            exchange: 'BME',
             companyName: 'Indra Company S.A.',
             buyDate: '2015-02-25',
             buyOut: '8.03',
             lastPrice: '',
+            lastPriceData: '',
             sessionChange: '',
             shares: '100',
             balance: '',
-            valuableInfo: { signChange:'',
-                            signBalance:''
+            valuableInfo: {
+              signChange: '',
+              signBalance: '',
+              lastPriceData: ''
             }
           },
           {
-            symbol: 'BME:ITX',
+            ticker: 'ITX',
+            exchange: 'BME',
             companyName: 'Inditex',
             buyDate: '2015-02-25',
             buyOut: '28.54',
             lastPrice: '',
+            lastPriceData: '',
             sessionChange: '',
             shares: '52',
             balance: '',
-            valuableInfo: { signChange:'',
-                            signBalance:''
+            valuableInfo:{
+              signChange:'',
+              signBalance:'',
+              lastPriceData: ''
             }
           },
           {
-            symbol: 'NASDAQ:AAPL',
+            ticker: 'AAPL',
+            exchange: 'NASDAQ',
             companyName: 'Apple Inc.',
             buyDate: '2015-02-25',
             buyOut: '78.98',
             lastPrice: '',
+            lastPriceData: '',
             sessionChange: '',
             shares: '34',
             balance: '',
-            valuableInfo: { signChange:'',
-                            signBalance:''
+            valuableInfo:{
+              signChange:'',
+              signBalance:'',
+              lastPriceData: ''
             }
           }];
       } else {
@@ -159,3 +166,29 @@ finApp.factory('portfolioService', [ 'yqlService', 'googleFinanceService',
 
   }
 ]);
+
+
+var utils = {
+  evaluateValuableInfo: function (quote) {
+
+    if (quote.balance > 0) {
+      quote.valuableInfo.signBalance = 'positive';
+    } else if (quote.balance < 0) {
+      quote.valuableInfo.signBalance = 'negative';
+    } else {
+      quote.valuableInfo.signBalance = 'neutral';
+    }
+    if (quote.sessionChange > 0) {
+      quote.valuableInfo.signChange = 'positive';
+    } else if (quote.sessionChange < 0) {
+      quote.valuableInfo.signChange = 'negative';
+    } else {
+      quote.valuableInfo.signChange = 'neutral';
+    }
+    return quote;
+  },
+
+  mustBeUpdated: function (quote) {
+
+  }
+};
