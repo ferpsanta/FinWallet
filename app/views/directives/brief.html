@@ -1,7 +1,7 @@
-<table class="table">
+<table class="table table-hover">
   <thead>
   <tr>
-    <th> Name </th>
+    <th > Name </th>
     <th> Symbol </th>
     <th> Buy Price </th>
     <th> Last Price </th>
@@ -10,18 +10,20 @@
     <th> Mkt Value </th>
     <th> Gain </th>
     <th> Overall return </th>
+    <th> Options </th>
   </tr>
   </thead>
   <tbody>
   <tr ng-repeat="quote in usrPortfolio">
+
     <td  align="left"> {{quote.companyName}} </td>
-    <td  align="left"> {{quote.ticker}}:{{quote.exchange}}</td>
+    <td  align="left"> {{quote.ticker}}</td>
     <td  align="left"> {{quote.buyOut | currency:"€"}} </td>
     <td  align="left"> {{quote.lastPrice | currency:"€"}} </td>
     <td  align="left"
          data-ng-style="quote.valuableInfo.signChange == 'negative' && { 'color': '#FF4141' } ||
                    quote.valuableInfo.signChange == 'positive' && { 'color': '#00FF80' } ">
-      {{quote.sessionChange | currency:"€"}} ({{((100/(quote.lastPrice-quote.sessionChange))*quote.lastPrice)-100 | number:2}}%)
+      {{quote.sessionChange | currency:"€"}} ({{((100/quote.openPrice)*quote.lastPrice)-100 | number:2}}%)
     </td>
     <td  align="left"> {{quote.shares}} </td>
     <td aling="left"> {{quote.lastPrice*quote.shares | currency:"€"}}</td>
@@ -33,11 +35,26 @@
          data-ng-style="quote.valuableInfo.signBalance == 'negative' && { 'color': '#FF4141' } ||
                    quote.valuableInfo.signBalance == 'positive' && { 'color': '#00FF80' } ">
       {{(((100/quote.buyOut)*quote.lastPrice)-100) | number:2}}% </td>
+
+    <!-- Options buttons -->
+    <td  align="left">
+      <a href class="btn" ng-click="show{{quote.transactionID}}Details=!show{{quote.transactionID}}Details" uib-tooltip="Transaction Info">
+        <span class="glyphicon glyphicon-copy" aria-hidden="true"></span>
+      </a>
+      <a href class="btn" ng-click="" uib-tooltip="Quote history">
+        <span class="glyphicon glyphicon-stats" aria-hidden="true"></span>
+      </a>
+    </td>
   </tr>
   </tbody>
-  <tfoot ng-hide="showAddNewQuote">
+
+  <tfoot>
     <tr>
-      <td><button class="btn-option" ng-click="showAddNewQuote=!showAddNewQuote"> <span class="glyphicon glyphicon-plus" aria-hidden="true"> </span> Add Quote </button></td>
+      <td><button class="btn-option" uib-collapse="showAddNewQuote"
+                  ng-click="showAddNewQuote=!showAddNewQuote">
+        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Quote</button>
+      </td>
+      <td></td>
       <td></td>
       <td></td>
       <td></td>
@@ -50,10 +67,11 @@
   </tfoot>
 </table>
 
-<div ng-hide="!showAddNewQuote">
+<div uib-collapse="!showAddNewQuote">
   <div class="well">
     <div class="row">
-      <form class="well-form-inline">
+      <form class="well-form-inline" name="form" role="form">
+
         <div class="form-group">
           <div class="input-group input-group-sm">
             <input type="text" class="form-control" placeholder="Name" id="quoteName"
@@ -68,30 +86,30 @@
         </div>
         <div class="form-group">
           <div class="input-group input-group-sm">
-            <input type="text" class="form-control" placeholder="Shares" id="exampleInputName2"
+            <input type="text" class="form-control" placeholder="Shares" id="quoteShares"
                    ng-model="bfc.quote.shares" required>
           </div>
         </div>
-      </form>
-      <p> </p>
-      <form class="well-form-inline">
+
+        <p> </p>
+
         <div class="form-group">
           <div class="input-group input-group-sm">
-            <input type="text" class="form-control" placeholder="Buy price"
+            <input type="text" class="form-control" placeholder="Buy price" id="quoteBuyPrice"
                    ng-model="bfc.quote.buyPrice" aria-describedby="sizing-addon3" required>
             <span class="input-group-addon">€</span>
           </div>
         </div>
         <div class="form-group">
           <div class="input-group input-group-sm">
-            <input type="text" class="form-control" placeholder="Comission"
-                   ng-model="bfc.quote.comission" aria-describedby="sizing-addon3" required>
+            <input type="text" class="form-control" placeholder="Comission" id="quoteCommission"
+                   ng-model="bfc.quote.commission" aria-describedby="sizing-addon3" required>
             <span class="input-group-addon">€</span>
           </div>
         </div>
         <div class="form-group">
           <div class="input-group input-group-sm">
-            <input type="text" class="form-control" placeholder="Buy date"
+            <input type="text" class="form-control" placeholder="Buy date" id="quoteBuyDate"
                    ng-model="bfc.quote.buyDate" aria-describedby="sizing-addon3" uib-datepicker-popup
                    is-open="datePopup.opened" show-button-bar="false" min-date="minDate" max-date="maxDate"  required>
             <span class="input-group-addon">
@@ -101,10 +119,18 @@
             </span>
           </div>
         </div>
+
+        <p> </p>
       </form>
-      <p> </p>
-      <button class="btn-option-well" ng-click="showAddNewQuote=!showAddNewQuote; bfc.addQuote()"> <span class="glyphicon glyphicon-plus" aria-hidden="true"> </span> Add to my portfolio </button>
-      <button class="btn-option-well" ng-click="showAddNewQuote=!showAddNewQuote;"> <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Discard changes</button>
+
+      <button class="btn-option-well"  ng-disabled="form.$invalid"
+              ng-click="showAddNewQuote=!showAddNewQuote; bfc.addQuote();  bfc.resetQuoteForm(form)">
+        <span class="glyphicon glyphicon-plus" aria-hidden="true"> </span> Add to my portfolio
+      </button>
+      <button class="btn-option-well" ng-click="showAddNewQuote=!showAddNewQuote; bfc.resetQuoteForm(form)">
+        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Discard changes
+      </button>
+
     </div>
   </div>
-<div>
+</div>

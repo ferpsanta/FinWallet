@@ -2322,7 +2322,7 @@ th {
   background-color: #f9f9f9;
 }
 .table-hover > tbody > tr:hover {
-  background-color: #f5f5f5;
+  background-color: #414141;
 }
 table col[class*="col-"] {
   position: static;
@@ -3087,7 +3087,7 @@ select[multiple].input-lg {
 .btn:hover,
 .btn:focus,
 .btn.focus {
-  color: #333;
+  color: #fff;
   text-decoration: none;
 }
 .btn:active,
@@ -3109,6 +3109,9 @@ fieldset[disabled] .btn {
 a.btn.disabled,
 fieldset[disabled] a.btn {
   pointer-events: none;
+}
+a.btn {
+  padding: unset;
 }
 .btn-default {
   color: #333;
@@ -3286,23 +3289,17 @@ fieldset[disabled] .btn-option.active {
 }
 .btn-option-well.disabled,
 .btn-option-well[disabled],
-fieldset[disabled] .btn-option-well,
 .btn-option-well.disabled:hover,
 .btn-option-well[disabled]:hover,
-fieldset[disabled] .btn-option-well:hover,
 .btn-option-well.disabled:focus,
-.btn-option-well[disabled]:focus,
-fieldset[disabled] .btn-option-well:focus,
 .btn-option-well.disabled.focus,
 .btn-option-well[disabled].focus,
-fieldset[disabled] .btn-option-well.focus,
 .btn-option-well.disabled:active,
 .btn-option-well[disabled]:active,
-fieldset[disabled] .btn-option-well:active,
 .btn-option-well.disabled.active,
-.btn-option-well[disabled].active,
-fieldset[disabled] .btn-option-well.active {
-  background-color: #9d9d9d;
+.btn-option-well[disabled].active {
+  background: none;
+  color: #adadad;
   border-color: #3a3a3a;
 }
 .btn-option-well .badge {

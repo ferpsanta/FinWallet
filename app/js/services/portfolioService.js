@@ -31,7 +31,7 @@ finApp.factory('portfolioService', [ 'yqlService', 'googleFinanceService',
       var userQuote;
       var quote;
 
-      angular.forEach( portfolio, function (quote){
+      angular.forEach( portfolio, function (quote) {
         symbolSet.push(quote.ticker+":"+quote.exchange);
       });
 
@@ -41,14 +41,17 @@ finApp.factory('portfolioService', [ 'yqlService', 'googleFinanceService',
 
         for (var i = 0; i < data.length; i++) {
           for (var j = 0; j < portfolio.length; j++) {
-            if(data[i].t === portfolio[j].ticker && data[i].e === portfolio[j].exchange){
 
-              userQuote = portfolio[j];
-              quote = data[i];
+            userQuote = portfolio[j];
+            quote = data[i];
 
+            if(quote.t === userQuote.ticker && quote.e === userQuote.exchange){
+
+              userQuote.transactionID = i;
               userQuote.lastPrice = quote.l;
+              userQuote.openPrice = quote.pcls_fix;
               userQuote.sessionChange = quote.c;
-              userQuote.balance = (userQuote.lastPrice - userQuote.buyOut) * userQuote.shares;
+              userQuote.balance = (userQuote.lastPrice - userQuote.buyOut) * userQuote.shares - userQuote.commission;
               userQuote = utils.evaluateValuableInfo(userQuote);
 
             }
@@ -59,11 +62,13 @@ finApp.factory('portfolioService', [ 'yqlService', 'googleFinanceService',
 
     function addQuote (symbol, companyName, date, buyOut, commission, shares){
       var symbolSplit = symbol.split(":");
-      portfolio.push({  ticker: symbolSplit[0],
+      portfolio.push({  transactionID: portfolio.length,
+                        ticker: symbolSplit[0],
                         exchange: symbolSplit[1],
                         companyName: companyName,
                         buyDate: date,
                         buyOut: buyOut,
+                        openPrice: '',
                         lastPrice: '',
                         lastPriceData: '',
                         shares: shares,
@@ -98,8 +103,10 @@ finApp.factory('portfolioService', [ 'yqlService', 'googleFinanceService',
           companyName: 'Alphabet Inc.',
           buyDate: '2015-02-25',
           buyOut: '632.10',
+          openPrice: '',
           lastPrice: '',
           shares: '123',
+          commission: '100',
           balance: '',
           valuableInfo:{
             signChange:'',
@@ -113,10 +120,12 @@ finApp.factory('portfolioService', [ 'yqlService', 'googleFinanceService',
             companyName: 'Indra Company S.A.',
             buyDate: '2015-02-25',
             buyOut: '8.03',
+            openPrice: '',
             lastPrice: '',
             lastPriceData: '',
             sessionChange: '',
-            shares: '100',
+            shares: '472',
+            commission: '28.00',
             balance: '',
             valuableInfo: {
               signChange: '',
@@ -130,10 +139,12 @@ finApp.factory('portfolioService', [ 'yqlService', 'googleFinanceService',
             companyName: 'Inditex',
             buyDate: '2015-02-25',
             buyOut: '28.54',
+            openPrice: '',
             lastPrice: '',
             lastPriceData: '',
             sessionChange: '',
-            shares: '52',
+            shares: '108',
+            commission: '9.50',
             balance: '',
             valuableInfo:{
               signChange:'',
@@ -147,10 +158,12 @@ finApp.factory('portfolioService', [ 'yqlService', 'googleFinanceService',
             companyName: 'Apple Inc.',
             buyDate: '2015-02-25',
             buyOut: '78.98',
+            openPrice: '',
             lastPrice: '',
             lastPriceData: '',
             sessionChange: '',
             shares: '34',
+            commission: '50.00',
             balance: '',
             valuableInfo:{
               signChange:'',
