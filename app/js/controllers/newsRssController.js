@@ -1,7 +1,7 @@
 finApp.controller('NewsRssController', [ '$scope', 'rssService',
   function($scope, rssService) {
     var nrssc = this;
-    var newsFeed = ["http://feeds.reuters.com/reuters/financialsNews"];
+    var newsFeed = ["http://feeds.feedburner.com/morningstar/glkd"];
 
     nrssc.viewMoreNews = viewMoreNews;
 
@@ -10,10 +10,8 @@ finApp.controller('NewsRssController', [ '$scope', 'rssService',
       rssService.addFeeds(newsFeed);
     })();
 
-    $scope.shownNews = 6;
+    $scope.shownNews = 4;
     $scope.news = rssService.getNews();
-
-    console.log($scope.news);
 
     function viewMoreNews(){
       $scope.shownNews += 3;

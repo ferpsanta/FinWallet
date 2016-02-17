@@ -2,15 +2,17 @@
   <h2>
     Last News
   </h2>
-  <div class="media" ng-repeat="entry in news | orderBy:'-publishedDate'" ng-if="$index<shownNews">
-    <div class="media-left">
-      <img class="media-object" src="{{entry.mediaGroups[0].contents[0].url}}" alt="...">
-    </div>
-    <div class="media-body">
-      <a target="_blank" href="{{entry.link}}">
-        <h4 class="media-heading">{{entry.title}}</h4>
-      </a>
-      {{entry.contentSnippet}} {{entry.publishedDate | date:'mediumDate'}}
+  <div class="well" ng-repeat="entry in news | orderBy:'-publishedDate'" ng-if="$index<shownNews">
+    <div class="media">
+      <div class="media-left" ng-if="false">
+        <img class="media-object" src="{{entry.mediaGroups[0].contents[0].url}}" alt="...">
+      </div>
+      <div class="media-body">
+        <a target="_blank" href="{{entry.link}}">
+          <h5 class="media-heading">{{entry.title}}</h5>
+        </a>
+        {{entry.contentSnippet}} {{entry.publishedDate | date:'mediumDate'}}
+      </div>
     </div>
   </div>
 
