@@ -1,4 +1,4 @@
-finApp.directive('newsRss', function () {
+finApp.directive('newsrss', function () {
   return {
     restrict: 'E',
     templateUrl: 'views/directives/newsRss.html',
