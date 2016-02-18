@@ -23,18 +23,18 @@
     <td  align="left"
          data-ng-style="quote.valuableInfo.signChange == 'negative' && { 'color': '#FF4141' } ||
                    quote.valuableInfo.signChange == 'positive' && { 'color': '#00FF80' } ">
-      {{quote.sessionChange | currency:"€"}} ({{((100/quote.openPrice)*quote.lastPrice)-100 | number:2}}%)
+      {{quote.valuableInfo.signChange === "positive" ? "+" : ""}}{{quote.sessionChange | currency:"€"}} ({{((100/quote.openPrice)*quote.lastPrice)-100 | number:2}}%)
     </td>
     <td  align="left"> {{quote.shares}} </td>
     <td aling="left"> {{quote.lastPrice*quote.shares | currency:"€"}}</td>
     <td  align="left"
          data-ng-style="quote.valuableInfo.signBalance == 'negative' && { 'color': '#FF4141' } ||
                    quote.valuableInfo.signBalance == 'positive' && { 'color': '#00FF80' } ">
-      {{quote.balance | currency:"€"}} </td>
+      {{quote.valuableInfo.signBalance === "positive" ? "+" : ""}}{{quote.balance | currency:"€"}} </td>
     <td  align="left"
          data-ng-style="quote.valuableInfo.signBalance == 'negative' && { 'color': '#FF4141' } ||
                    quote.valuableInfo.signBalance == 'positive' && { 'color': '#00FF80' } ">
-      {{(((100/quote.buyOut)*quote.lastPrice)-100) | number:2}}% </td>
+      {{quote.valuableInfo.signBalance === "positive" ? "+" : ""}}{{(((100/quote.buyOut)*quote.lastPrice)-100) | number:2}}% </td>
 
     <!-- Options buttons -->
     <td  align="left">

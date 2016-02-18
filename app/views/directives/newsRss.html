@@ -1,8 +1,8 @@
 <div class="col-md-12">
   <h2>
-    Lastest News
+    Latest News
   </h2>
-  <div class="well" ng-repeat="entry in news | orderBy:'-publishedDate'" ng-if="$index<shownNews">
+  <div class="news-well" ng-repeat="entry in news | orderBy:'-publishedDate'" ng-if="$index<shownNews">
     <div class="media">
       <div class="media-left" ng-if="false">
         <img class="media-object" src="{{entry.mediaGroups[0].contents[0].url}}" alt="...">
