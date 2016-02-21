@@ -1,23 +1,22 @@
-finApp.controller('BriefController', ['$scope', '$interval', '$rootScope', 'portfolioService',
-  function($scope, $interval, $rootScope, portfolioService) {
+finApp.controller('BriefController', ['$scope', '$interval', '$rootScope', 'quotePortfolioService',
+  function($scope, $interval, $rootScope, quotePortfolioService) {
     var bfc = this;
 
     var master = {};
 
     bfc.addQuote = addQuote;
-    bfc.removeQuote = portfolioService.removeQuote;
+    bfc.removeQuote = quotePortfolioService.removeQuote;
     bfc.showQuoteDetails = showQuoteDetails;
     bfc.resetQuoteForm = resetQuoteForm;
 
     (function InitController() {
-      portfolioService.setPortfolio($rootScope.globals.currentUser.username);
+      quotePortfolioService.setQuotePortfolio($rootScope.globals.currentUser.username);
+      $scope.usrPortfolio = quotePortfolioService.getQuotePortfolio();
     })();
 
-    $scope.usrPortfolio = portfolioService.getPortfolio();
-
     stopUpdater = $interval(function(){
-                    if (portfolioService.getPortfolio().length > 0) {
-                      portfolioService.updatePortfolio();
+                    if (quotePortfolioService.getQuotePortfolio().length > 0) {
+                      quotePortfolioService.updateQuotePortfolio();
                     }
                   }, 5000);
 
@@ -26,9 +25,9 @@ finApp.controller('BriefController', ['$scope', '$interval', '$rootScope', 'port
     });
 
     function addQuote() {
-      portfolioService.addQuote(bfc.quote.symbol, bfc.quote.companyName, bfc.quote.buyDate,
+      quotePortfolioService.addQuote(bfc.quote.symbol, bfc.quote.companyName, bfc.quote.buyDate,
                                 bfc.quote.buyPrice, bfc.quote.commission, bfc.quote.shares);
-      $scope.usrPortfolio = portfolioService.getPortfolio();
+      $scope.usrPortfolio = quotePortfolioService.getQuotePortfolio();
     }
 
     function showQuoteDetails(quote) {

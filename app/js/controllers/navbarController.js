@@ -1,5 +1,5 @@
-finApp.controller('NavbarController', ['$location', 'authService', 'alertService', 'portfolioService',
-  function($location, authService, alertService, portfolioService) {
+finApp.controller('NavbarController', ['$location', 'authService', 'alertService', 'quotePortfolioService',
+  function($location, authService, alertService, quotePortfolioService) {
     var nbc = this;
 
     nbc.home = home;
@@ -13,7 +13,7 @@ finApp.controller('NavbarController', ['$location', 'authService', 'alertService
     function logout() {
       alertService.addAlert("success", "User log out!");
       authService.clearCredentials();
-      portfolioService.clearPortfolio();
+      quotePortfolioService.clearQuotePortfolio();
       $location.path('/login');
     };
 

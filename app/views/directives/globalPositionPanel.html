@@ -1,12 +1,35 @@
 <div class="col-md-12">
-  <div class="panel panel-default">
+  <div class="panel panel-balance">
     <div class="panel-heading">
-      <h3 class="panel-title">
+      <h1 class="panel-title">
         Global Position
-      </h3>
+      </h1>
     </div>
     <div class="panel-body">
-      Data here
+      <table class="table">
+        <thead>
+        <tr>
+          <th> </th>
+          <th> </th>
+          <th> </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="product in products">
+          <td  align="left">
+            <label uib-tooltip="{{product.name}}" tooltip-placement="left">{{ product.shortName }}</label>
+          </td>
+          <td  align="left" data-ng-style="product.valuableInfo.signBalance == 'negative' && { 'color': '#FF4141' } ||
+                   product.valuableInfo.signBalance == 'positive' && { 'color': '#00FF80' } ">
+            {{product.valuableInfo.signBalance === "positive" ? "+" : ""}}{{product.gain | currency:'€'}} ({{product.valuableInfo.signBalance === "positive" ? "+" : ""}}{{product.overallReturn | number:2}}%)
+          </td>
+          <td>
+            {{product.marketValue | currency:'€'}}
+          </td>
+        </tr>
+
+        </tbody>
+      </table>
     </div>
     <div class="panel-footer">
       Buttons here

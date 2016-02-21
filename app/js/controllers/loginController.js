@@ -6,8 +6,8 @@ finApp.config(['$routeProvider', function($routeProvider) {
   });
 }]);
 
-finApp.controller('LoginController', [ '$scope', '$location', 'authService', 'portfolioService', 'alertService', '$uibModal',
-  function( $scope, $location, authService, portfolioService, alertService, $uibModal) {
+finApp.controller('LoginController', [ '$scope', '$location', 'authService', 'quotePortfolioService', 'alertService', '$uibModal',
+  function( $scope, $location, authService, quotePortfolioService, alertService, $uibModal) {
 
     var vm = this;
 
@@ -26,7 +26,7 @@ finApp.controller('LoginController', [ '$scope', '$location', 'authService', 'po
           console.log('Login successfully');
           alertService.addAlert( "success", "Login successfully!");
           authService.setCredentials(vm.email, vm.password);
-          portfolioService.setPortfolio(vm.email);
+          quotePortfolioService.setQuotePortfolio(vm.email);
           $location.path('/');
         } else {
           console.log(response.message);

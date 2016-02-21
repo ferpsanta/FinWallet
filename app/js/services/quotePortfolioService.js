@@ -1,37 +1,37 @@
-finApp.factory('portfolioService', [ 'yqlService', 'googleFinanceService',
+finApp.factory('quotePortfolioService', [ 'yqlService', 'googleFinanceService',
   function (yqlService, googleFinanceService) {
 
     var service = {};
-    portfolio = [];
+    quotesPortfolio = [];
 
-    service.getPortfolio = getPortfolio;
-    service.setPortfolio = setPortfolio;
-    service.updatePortfolio = updatePortfolio;
+    service.getQuotePortfolio = getQuotePortfolio;
+    service.setQuotePortfolio = setQuotePortfolio;
+    service.updateQuotePortfolio = updateQuotePortfolio;
     service.addQuote = addQuote;
     service.removeQuoteIndex = removeQuoteIndex;
     service.removeQuote = removeQuote;
-    service.clearPortfolio = clearPortfolio;
+    service.clearQuotePortfolio = clearQuotePortfolio;
     service.getByEmail = getByEmail;
 
     return service;
 
-    function setPortfolio(email) {
-      portfolio = getByEmail(email);
-      if( portfolio.length > 0) {
-        updatePortfolio();// Portfolio first update
+    function setQuotePortfolio(email) {
+      quotesPortfolio = getByEmail(email);
+      if( quotesPortfolio.length > 0) {
+        updateQuotePortfolio();// Portfolio first update
       }
     }
 
-    function getPortfolio (){
-      return portfolio;
+    function getQuotePortfolio (){
+      return quotesPortfolio;
     }
 
-    function updatePortfolio(){
+    function updateQuotePortfolio(){
       var symbolSet = [];
       var userQuote;
       var quote;
 
-      angular.forEach( portfolio, function (quote) {
+      angular.forEach( quotesPortfolio, function (quote) {
         symbolSet.push(quote.ticker+":"+quote.exchange);
       });
 
@@ -40,9 +40,9 @@ finApp.factory('portfolioService', [ 'yqlService', 'googleFinanceService',
       promise.then(function(data){
 
         for (var i = 0; i < data.length; i++) {
-          for (var j = 0; j < portfolio.length; j++) {
+          for (var j = 0; j < quotesPortfolio.length; j++) {
 
-            userQuote = portfolio[j];
+            userQuote = quotesPortfolio[j];
             quote = data[i];
 
             if(quote.t === userQuote.ticker && quote.e === userQuote.exchange){
@@ -51,8 +51,8 @@ finApp.factory('portfolioService', [ 'yqlService', 'googleFinanceService',
               userQuote.lastPrice = quote.l;
               userQuote.openPrice = quote.pcls_fix;
               userQuote.sessionChange = quote.c;
-              userQuote.balance = (userQuote.lastPrice - userQuote.buyOut) * userQuote.shares - userQuote.commission;
-              userQuote = utils.evaluateValuableInfo(userQuote);
+              userQuote.balance = ((userQuote.lastPrice - userQuote.buyOut) * userQuote.shares - userQuote.commission).toFixed(3);
+              userQuote = portfolioUtils.evaluateValuableInfo(userQuote);
 
             }
           }
@@ -62,7 +62,7 @@ finApp.factory('portfolioService', [ 'yqlService', 'googleFinanceService',
 
     function addQuote (symbol, companyName, date, buyOut, commission, shares){
       var symbolSplit = symbol.split(":");
-      portfolio.push({  transactionID: portfolio.length,
+      quotesPortfolio.push({  transactionID: quotesPortfolio.length,
                         ticker: symbolSplit[0],
                         exchange: symbolSplit[1],
                         companyName: companyName,
@@ -70,7 +70,6 @@ finApp.factory('portfolioService', [ 'yqlService', 'googleFinanceService',
                         buyOut: buyOut,
                         openPrice: '',
                         lastPrice: '',
-                        lastPriceData: '',
                         shares: shares,
                         commission: commission,
                         balance: '',
@@ -83,21 +82,21 @@ finApp.factory('portfolioService', [ 'yqlService', 'googleFinanceService',
     }
 
     function removeQuoteIndex (quoteIndex){
-      return portfolio.splice(quoteIndex, 1);
+      return quotesPortfolio.splice(quoteIndex, 1);
     }
 
     function removeQuote (quote){
-      return removeQuoteIndex(portfolio.indexOf(quote));
+      return removeQuoteIndex(quotesPortfolio.indexOf(quote));
     }
 
-    function clearPortfolio (){
-      portfolio = [];
+    function clearQuotePortfolio (){
+      quotesPortfolio = [];
     }
 
     function getByEmail(email){
       //Demo values... Not Restfull, in future this must be queried to a DB...
       if (email == 'demo') {
-        var portfolio = [{
+        var quotesPortfolio = [{
           ticker: 'GOOGL',
           exchange: 'NASDAQ',
           companyName: 'Alphabet Inc.',
@@ -122,7 +121,6 @@ finApp.factory('portfolioService', [ 'yqlService', 'googleFinanceService',
             buyOut: '8.03',
             openPrice: '',
             lastPrice: '',
-            lastPriceData: '',
             sessionChange: '',
             shares: '472',
             commission: '28.00',
@@ -141,7 +139,6 @@ finApp.factory('portfolioService', [ 'yqlService', 'googleFinanceService',
             buyOut: '28.54',
             openPrice: '',
             lastPrice: '',
-            lastPriceData: '',
             sessionChange: '',
             shares: '108',
             commission: '9.50',
@@ -160,7 +157,6 @@ finApp.factory('portfolioService', [ 'yqlService', 'googleFinanceService',
             buyOut: '78.98',
             openPrice: '',
             lastPrice: '',
-            lastPriceData: '',
             sessionChange: '',
             shares: '34',
             commission: '50.00',
@@ -172,16 +168,16 @@ finApp.factory('portfolioService', [ 'yqlService', 'googleFinanceService',
             }
           }];
       } else {
-        var portfolio = [];
+        var quotesPortfolio = [];
       }
-      return portfolio;
+      return quotesPortfolio;
     }
 
   }
 ]);
 
 
-var utils = {
+var portfolioUtils = {
   evaluateValuableInfo: function (quote) {
 
     if (quote.balance > 0) {
