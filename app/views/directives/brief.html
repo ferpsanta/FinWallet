@@ -19,7 +19,7 @@
     <td  align="left"> {{quote.companyName}} </td>
     <td  align="left"> {{quote.ticker}}</td>
     <td  align="left"> {{quote.buyOut | currency:"€"}} </td>
-    <td  align="left"> {{quote.lastPrice | currency:"€"}} </td>
+    <td  align="left"> <p uib-tooltip="Difference from buy: {{quote.valuableInfo.priceChangeFromBuy | currency:'€'}}">{{quote.lastPrice | currency:"€"}} </p></td>
     <td  align="left"
          data-ng-style="quote.valuableInfo.signChange == 'negative' && { 'color': '#FF4141' } ||
                    quote.valuableInfo.signChange == 'positive' && { 'color': '#00FF80' } ">

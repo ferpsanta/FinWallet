@@ -74,6 +74,7 @@ finApp.factory('quotePortfolioService', [ 'yqlService', 'googleFinanceService',
                         commission: commission,
                         balance: '',
                         valuableInfo:{
+                          priceChangeFromBuy: '',
                           signChange:'',
                           signBalance:'',
                           lastPriceData: ''
@@ -108,6 +109,7 @@ finApp.factory('quotePortfolioService', [ 'yqlService', 'googleFinanceService',
           commission: '0.00',
           balance: '',
           valuableInfo:{
+            priceChangeFromBuy: '',
             signChange:'',
             signBalance:'',
             lastPriceData: ''
@@ -126,6 +128,7 @@ finApp.factory('quotePortfolioService', [ 'yqlService', 'googleFinanceService',
             commission: '28.00',
             balance: '',
             valuableInfo: {
+              priceChangeFromBuy: '',
               signChange: '',
               signBalance: '',
               lastPriceData: ''
@@ -144,6 +147,7 @@ finApp.factory('quotePortfolioService', [ 'yqlService', 'googleFinanceService',
             commission: '9.50',
             balance: '',
             valuableInfo:{
+              priceChangeFromBuy: '',
               signChange:'',
               signBalance:'',
               lastPriceData: ''
@@ -162,6 +166,7 @@ finApp.factory('quotePortfolioService', [ 'yqlService', 'googleFinanceService',
             commission: '0.00',
             balance: '',
             valuableInfo:{
+              priceChangeFromBuy: '',
               signChange:'',
               signBalance:'',
               lastPriceData: ''
@@ -180,6 +185,7 @@ finApp.factory('quotePortfolioService', [ 'yqlService', 'googleFinanceService',
             commission: '0.00',
             balance: '',
             valuableInfo:{
+              priceChangeFromBuy: '',
               signChange:'',
               signBalance:'',
               lastPriceData: ''
@@ -197,6 +203,8 @@ finApp.factory('quotePortfolioService', [ 'yqlService', 'googleFinanceService',
 
 var portfolioUtils = {
   evaluateValuableInfo: function (quote) {
+
+    quote.valuableInfo.priceChangeFromBuy = quote.lastPrice - quote.buyOut;
 
     if (quote.balance > 0) {
       quote.valuableInfo.signBalance = 'positive';
