@@ -17,6 +17,7 @@ finApp.controller('LoginController', [ '$scope', '$location', 'authService', 'qu
     $scope.alerts = alertService.getAlerts();
 
     (function InitController() {
+      alertService.addAlert("info", "Demo credentials - User: 'demo' & Password: 'demo'", 15000);
       authService.clearCredentials();
     })();
 
