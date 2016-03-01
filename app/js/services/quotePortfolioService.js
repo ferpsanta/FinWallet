@@ -124,7 +124,7 @@ finApp.factory('quotePortfolioService', [ 'yqlService', 'googleFinanceService',
             openPrice: '',
             lastPrice: '',
             sessionChange: '',
-            shares: '472',
+            shares: '348',
             commission: '28.00',
             balance: '',
             valuableInfo: {
